@@ -1321,6 +1321,7 @@ window.esqueceuSenha = async function() {
   }
 };
 
+window.addEventListener('beforeunload', async () => {
   if (currentUser) await setOffline(currentUser.uid);
 });
 
