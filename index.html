@@ -726,12 +726,29 @@ window.doLogin = async function() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPassword').value;
   const errEl = document.getElementById('loginError');
+  const btn   = document.querySelector('#loginScreen .btn-primary');
   errEl.style.display = 'none';
+  if (!email || !pass) {
+    errEl.textContent = 'Preencha e-mail e senha.';
+    errEl.style.display = 'block';
+    return;
+  }
+  btn.textContent = 'Entrando...';
+  btn.disabled = true;
   try {
-    const cred = await signInWithEmailAndPassword(auth, email, pass);
-    // perfil será carregado no onAuthStateChanged
+    await signInWithEmailAndPassword(auth, email, pass);
   } catch(e) {
-    errEl.textContent = 'E-mail ou senha inválidos.';
+    btn.textContent = 'Entrar';
+    btn.disabled = false;
+    const msgs = {
+      'auth/invalid-credential': 'E-mail ou senha incorretos.',
+      'auth/user-not-found': 'Usuário não encontrado.',
+      'auth/wrong-password': 'Senha incorreta.',
+      'auth/invalid-email': 'E-mail inválido.',
+      'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos.',
+      'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
+    };
+    errEl.textContent = msgs[e.code] || 'Erro: ' + e.code;
     errEl.style.display = 'block';
   }
 };
