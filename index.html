@@ -8,75 +8,46 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     * { font-family: 'Inter', sans-serif; }
-    :root {
-      --emerald: #10b981;
-      --emerald-light: #d1fae5;
-      --slate-50: #f8fafc;
-      --slate-100: #f1f5f9;
-      --slate-200: #e2e8f0;
-      --slate-400: #94a3b8;
-      --slate-600: #475569;
-      --slate-800: #1e293b;
-      --slate-900: #0f172a;
-    }
     .fade-in { animation: fadeIn 0.25s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    .tab-active { border-bottom: 2px solid #10b981; color: #10b981; font-weight: 600; }
-    .tab-inactive { border-bottom: 2px solid transparent; color: #64748b; }
-    .tab-inactive:hover { color: #1e293b; }
-    .status-pago { background: #d1fae5; color: #065f46; }
-    .status-pendente { background: #fef3c7; color: #92400e; }
-    .status-parcial { background: #dbeafe; color: #1e40af; }
-    input, select, textarea {
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 14px;
-      width: 100%;
-      outline: none;
-      transition: border 0.15s;
-      background: white;
-    }
-    input:focus, select:focus, textarea:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
-    label { font-size: 12px; font-weight: 500; color: #475569; display: block; margin-bottom: 4px; }
-    .btn-primary { background: #10b981; color: white; padding: 9px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.15s; border: none; }
-    .btn-primary:hover { background: #059669; }
-    .btn-secondary { background: white; color: #475569; padding: 9px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; border: 1px solid #e2e8f0; }
-    .btn-secondary:hover { border-color: #94a3b8; color: #1e293b; }
-    .btn-danger { background: #fef2f2; color: #dc2626; padding: 7px 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid #fecaca; transition: all 0.15s; }
-    .btn-danger:hover { background: #dc2626; color: white; }
-    .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 20px; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
-    .modal-box { background: white; border-radius: 16px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 28px; }
-    .online-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th { background: #f8fafc; color: #475569; font-weight: 500; padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
-    td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: #1e293b; vertical-align: middle; }
-    tr:hover td { background: #f8fafc; }
-    .sidebar { width: 220px; min-height: 100vh; background: #0f172a; flex-shrink: 0; }
-    .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; cursor: pointer; color: #94a3b8; font-size: 14px; font-weight: 500; transition: all 0.15s; margin: 2px 8px; }
-    .sidebar-item:hover { background: rgba(255,255,255,0.08); color: white; }
-    .sidebar-item.active { background: rgba(16,185,129,0.15); color: #10b981; }
-    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 100; background: #1e293b; color: white; padding: 12px 20px; border-radius: 10px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 24px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
-    @keyframes slideUp { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
-    @media print {
-      .no-print { display: none !important; }
-      .print-area { padding: 0 !important; }
-    }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 3px; }
-    .parcela-row { background: #f8fafc; border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)} }
+    input,select,textarea{border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;font-size:14px;width:100%;outline:none;transition:border 0.15s;background:white;}
+    input:focus,select:focus,textarea:focus{border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,0.1);}
+    label{font-size:12px;font-weight:500;color:#475569;display:block;margin-bottom:4px;}
+    .btn-primary{background:#10b981;color:white;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:background 0.15s;border:none;}
+    .btn-primary:hover{background:#059669;}
+    .btn-secondary{background:white;color:#475569;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;}
+    .btn-secondary:hover{border-color:#94a3b8;color:#1e293b;}
+    .btn-danger{background:#fef2f2;color:#dc2626;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #fecaca;}
+    .btn-danger:hover{background:#dc2626;color:white;}
+    .card{background:white;border-radius:12px;border:1px solid #e2e8f0;padding:20px;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;}
+    .modal-box{background:white;border-radius:16px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;padding:28px;}
+    .online-dot{width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{background:#f8fafc;color:#475569;font-weight:500;padding:10px 14px;text-align:left;border-bottom:1px solid #e2e8f0;white-space:nowrap;}
+    td{padding:10px 14px;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle;}
+    tr:hover td{background:#f8fafc;}
+    .sidebar{width:220px;min-height:100vh;background:#0f172a;flex-shrink:0;}
+    .sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:8px;cursor:pointer;color:#94a3b8;font-size:14px;font-weight:500;transition:all 0.15s;margin:2px 8px;}
+    .sidebar-item:hover{background:rgba(255,255,255,0.08);color:white;}
+    .sidebar-item.active{background:rgba(16,185,129,0.15);color:#10b981;}
+    .toast{position:fixed;bottom:24px;right:24px;z-index:100;background:#1e293b;color:white;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.2);animation:slideUp 0.3s ease;}
+    @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .parcela-row{background:#f8fafc;border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid #e2e8f0;}
+    .alerta-vencido{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;margin-bottom:8px;}
+    .alerta-proximo{background:#fffbeb;border:1px solid #fef3c7;border-radius:8px;padding:12px;margin-bottom:8px;}
+    @media print{.no-print{display:none!important}}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:3px}
   </style>
 </head>
-<body style="background:#f8fafc; min-height:100vh;">
+<body style="background:#f8fafc;min-height:100vh;">
 
-<!-- ===================== LOGIN SCREEN ===================== -->
+<!-- LOGIN -->
 <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
   <div class="w-full max-w-sm fade-in">
     <div class="text-center mb-8">
@@ -91,32 +62,32 @@
         <label>E-mail</label>
         <input type="email" id="loginEmail" placeholder="seu@email.com" />
       </div>
-      <div style="margin-bottom:20px;">
+      <div style="margin-bottom:8px;">
         <label>Senha</label>
         <div style="position:relative;">
           <input type="password" id="loginPassword" placeholder="••••••••" style="padding-right:40px;" />
-          <button type="button" onclick="toggleSenhaLogin()" id="btnToggleSenha" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:4px;">
-            <svg id="eyeIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            <svg id="eyeOffIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          <button type="button" onclick="toggleSenha()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;">
+            <svg id="eyeOn" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg id="eyeOff" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
           </button>
         </div>
-        <div style="text-align:right;margin-top:6px;">
-          <button type="button" onclick="esqueceuSenha()" style="background:none;border:none;color:#10b981;font-size:12px;cursor:pointer;font-weight:500;">Esqueci minha senha</button>
-        </div>
       </div>
-      <button class="btn-primary" style="width:100%;" onclick="doLogin()">Entrar</button>
+      <div style="text-align:right;margin-bottom:20px;">
+        <button type="button" onclick="esqueceuSenha()" style="background:none;border:none;color:#10b981;font-size:12px;cursor:pointer;font-weight:500;">Esqueci minha senha</button>
+      </div>
+      <button class="btn-primary" id="btnLogin" style="width:100%;" onclick="doLogin()">Entrar</button>
       <p id="loginError" style="color:#dc2626;font-size:12px;margin-top:10px;text-align:center;display:none;"></p>
     </div>
     <p style="text-align:center;font-size:12px;color:#94a3b8;margin-top:20px;">Costa Galvão Advocacia Previdenciária</p>
   </div>
 </div>
 
-<!-- ===================== MAIN APP ===================== -->
+<!-- APP -->
 <div id="mainApp" style="display:none;" class="flex">
   <!-- Sidebar -->
   <div class="sidebar no-print" style="position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:40;">
     <div style="padding:20px 16px 12px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+      <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:32px;height:32px;background:#10b981;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
           <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
@@ -135,38 +106,32 @@
     </div>
     <nav style="padding:0 0 12px;">
       <div class="sidebar-item active" id="nav-dashboard" onclick="showSection('dashboard')">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Dashboard
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard
       </div>
       <div class="sidebar-item" id="nav-lancamentos" onclick="showSection('lancamentos')">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-        Lançamentos
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>Lançamentos
       </div>
       <div class="sidebar-item" id="nav-relatorios" onclick="showSection('relatorios')">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Relatórios
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatórios
       </div>
       <div class="sidebar-item admin-only" id="nav-usuarios" onclick="showSection('usuarios')" style="display:none;">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-        Usuários
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Usuários
       </div>
       <div class="sidebar-item admin-only" id="nav-auditoria" onclick="showSection('auditoria')" style="display:none;">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        Auditoria
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Auditoria
       </div>
     </nav>
     <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.06);">
-      <button onclick="doLogout()" style="width:100%;background:rgba(255,255,255,0.06);color:#94a3b8;padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;border:none;text-align:left;display:flex;align-items:center;gap:8px;">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sair
+      <button onclick="doLogout()" style="width:100%;background:rgba(255,255,255,0.06);color:#94a3b8;padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;border:none;display:flex;align-items:center;gap:8px;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair
       </button>
     </div>
   </div>
 
-  <!-- Main content -->
+  <!-- Conteúdo principal -->
   <div style="margin-left:220px;width:calc(100% - 220px);min-height:100vh;padding:24px;" id="mainContent">
 
-    <!-- ===== DASHBOARD ===== -->
+    <!-- DASHBOARD -->
     <div id="section-dashboard" class="fade-in">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;" class="no-print">
         <div>
@@ -174,39 +139,61 @@
           <p style="font-size:13px;color:#64748b;margin-top:2px;">Visão geral das bonificações</p>
         </div>
         <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#64748b;">
-          <span class="online-dot"></span>
-          <span id="onlineCount">1 online</span>
+          <span class="online-dot"></span><span id="onlineCount">1 online</span>
         </div>
       </div>
 
-      <!-- KPI Cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;">
+      <!-- KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px;">
         <div class="card">
-          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Total a Pagar</p>
-          <p id="kpiTotalPagar" style="font-size:24px;font-weight:700;color:#0f172a;">R$ 0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Bonificações pendentes</p>
+          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Bon. a Pagar</p>
+          <p id="kpiAPagar" style="font-size:22px;font-weight:700;color:#f59e0b;">R$ 0</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Aguardando 30 dias</p>
         </div>
         <div class="card">
-          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Total Pago</p>
-          <p id="kpiTotalPago" style="font-size:24px;font-weight:700;color:#10b981;">R$ 0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Bonificações liquidadas</p>
+          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Bon. Pagas</p>
+          <p id="kpiPagas" style="font-size:22px;font-weight:700;color:#10b981;">R$ 0</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Já liquidadas</p>
         </div>
         <div class="card">
-          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Contratos Ativos</p>
-          <p id="kpiContratos" style="font-size:24px;font-weight:700;color:#0f172a;">0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Em andamento</p>
+          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Vencidas</p>
+          <p id="kpiVencidas" style="font-size:22px;font-weight:700;color:#dc2626;">0</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">30 dias já passaram</p>
         </div>
         <div class="card">
-          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Parcelas Pendentes</p>
-          <p id="kpiParcelasPendentes" style="font-size:24px;font-weight:700;color:#f59e0b;">0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Aguardando pagamento</p>
+          <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Contratos</p>
+          <p id="kpiContratos" style="font-size:22px;font-weight:700;color:#0f172a;">0</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Total cadastrados</p>
         </div>
       </div>
 
-      <!-- Charts row -->
+      <!-- Filtro período dashboard -->
+      <div class="card no-print" style="margin-bottom:20px;padding:14px 20px;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:12px;font-weight:600;color:#475569;white-space:nowrap;margin-right:4px;">Período:</span>
+          <button onclick="setDashPeriodo('mes_atual')" id="dbf-mes_atual" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #10b981;background:#10b981;color:white;transition:all 0.15s;">Mês atual</button>
+          <button onclick="setDashPeriodo('mes_anterior')" id="dbf-mes_anterior" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Mês anterior</button>
+          <button onclick="setDashPeriodo('todos')" id="dbf-todos" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Todos</button>
+          <button onclick="setDashPeriodo('mes_especifico')" id="dbf-mes_especifico" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Mês específico</button>
+          <button onclick="setDashPeriodo('periodo')" id="dbf-periodo" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Período</button>
+          <div id="dashFiltroMes" style="display:none;">
+            <input type="month" id="dashMes" onchange="renderDashboard()" style="width:160px;padding:5px 10px;font-size:13px;" />
+          </div>
+          <div id="dashFiltroPeriodo" style="display:none;gap:8px;align-items:center;">
+            <input type="date" id="dashDe" onchange="renderDashboard()" style="width:145px;padding:5px 10px;font-size:13px;" />
+            <span style="font-size:12px;color:#94a3b8;">até</span>
+            <input type="date" id="dashAte" onchange="renderDashboard()" style="width:145px;padding:5px 10px;font-size:13px;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Alertas -->
+      <div id="alertasDiv" style="margin-bottom:24px;"></div>
+
+      <!-- Charts -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
         <div class="card">
-          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Bonificações por Colaborador</h3>
+          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Bonificações por Colaboradora</h3>
           <canvas id="chartColaborador" height="200"></canvas>
         </div>
         <div class="card">
@@ -215,91 +202,69 @@
         </div>
       </div>
 
-      <!-- Últimos lançamentos -->
+      <!-- Tabela -->
       <div class="card">
-        <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Últimos Lançamentos</h3>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <h3 style="font-size:14px;font-weight:600;color:#0f172a;">Lançamentos <span id="dashPeriodoLabel" style="font-size:12px;font-weight:400;color:#94a3b8;"></span></h3>
+          <p style="font-size:12px;color:#94a3b8;">Clique na cliente para ver detalhamento completo</p>
+        </div>
         <div style="overflow-x:auto;">
-          <table id="dashboardTable">
-            <thead><tr>
-              <th>Colaborador</th><th>Cliente</th><th>Causa</th>
-              <th>Parcelas</th><th>Status</th><th>Data</th>
-            </tr></thead>
-            <tbody id="dashboardTableBody">
-              <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
-            </tbody>
-          </table>
+          <table><thead><tr>
+            <th>Colaboradora</th><th>Cliente</th><th>Causa</th><th>Parcelas recebidas</th><th>Bon. Total</th><th>Status Bon.</th><th>Previsão Pagto</th>
+          </tr></thead>
+          <tbody id="dashboardTableBody"><tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr></tbody></table>
         </div>
       </div>
     </div>
 
-    <!-- ===== LANÇAMENTOS ===== -->
+    <!-- LANÇAMENTOS -->
     <div id="section-lancamentos" class="fade-in" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;" class="no-print">
         <div>
           <h2 style="font-size:20px;font-weight:700;color:#0f172a;">Lançamentos</h2>
-          <p style="font-size:13px;color:#64748b;margin-top:2px;">Contratos e bonificações</p>
+          <p style="font-size:13px;color:#64748b;margin-top:2px;">Contratos e acompanhamento de honorários</p>
         </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn-primary" onclick="openModalContrato()">
-            <span style="display:flex;align-items:center;gap:6px;">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              Novo Contrato
-            </span>
-          </button>
-        </div>
+        <button class="btn-primary" onclick="openModalContrato()">
+          <span style="display:flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo Contrato
+          </span>
+        </button>
       </div>
 
       <!-- Filtros -->
       <div class="card no-print" style="margin-bottom:16px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-          <div>
-            <label>Colaborador</label>
-            <select id="filtroColaborador" onchange="renderLancamentos()">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div>
-            <label>Causa</label>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+          <div><label>Colaboradora</label>
+            <select id="filtroColab" onchange="renderLancamentos()"><option value="">Todas</option></select></div>
+          <div><label>Causa</label>
             <select id="filtroCausa" onchange="renderLancamentos()">
-              <option value="">Todas</option>
-              <option>Salário Maternidade</option>
-              <option>BPC LOAS</option>
-              <option>Auxílio Doença</option>
-              <option>Outros</option>
-            </select>
-          </div>
-          <div>
-            <label>Status</label>
+              <option value="">Todas</option><option>Salário Maternidade</option>
+              <option>BPC LOAS</option><option>Auxílio Doença</option><option>Outros</option>
+            </select></div>
+          <div><label>Status Bonificação</label>
             <select id="filtroStatus" onchange="renderLancamentos()">
               <option value="">Todos</option>
-              <option value="pendente">Pendente</option>
-              <option value="parcial">Parcial</option>
-              <option value="pago">Pago</option>
-            </select>
-          </div>
-          <div>
-            <label>Buscar cliente</label>
-            <input type="text" id="filtroBusca" placeholder="Nome do cliente..." oninput="renderLancamentos()" />
-          </div>
+              <option value="aguardando_parcelas">Aguardando parcelas</option>
+              <option value="aguardando_30dias">Aguardando 30 dias</option>
+              <option value="vencida">Vencida — pagar já</option>
+              <option value="paga">Bonificação paga</option>
+            </select></div>
+          <div><label>Buscar cliente</label>
+            <input type="text" id="filtroBusca" placeholder="Nome..." oninput="renderLancamentos()" /></div>
         </div>
       </div>
 
-      <!-- Tabela lançamentos -->
       <div class="card" style="overflow-x:auto;">
-        <table id="lancamentosTable">
-          <thead><tr>
-            <th>Colaborador</th><th>Cliente</th><th>Causa</th>
-            <th>Entrada</th><th>BVE</th><th>Parcelas</th>
-            <th>Bon. Total</th><th>Status</th><th>Ações</th>
-          </tr></thead>
-          <tbody id="lancamentosTableBody">
-            <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr>
+          <th>Colaboradora</th><th>Cliente</th><th>Causa</th>
+          <th>Honorários recebidos</th><th>Bon. Total</th>
+          <th>Status Bon.</th><th>Previsão Pagto</th><th>Pagto Efetivo</th><th>Ações</th>
+        </tr></thead>
+        <tbody id="lancamentosTableBody"><tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- ===== RELATÓRIOS ===== -->
+    <!-- RELATÓRIOS -->
     <div id="section-relatorios" class="fade-in" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;" class="no-print">
         <div>
@@ -309,175 +274,111 @@
         <div style="display:flex;gap:8px;">
           <button class="btn-secondary no-print" onclick="window.print()">
             <span style="display:flex;align-items:center;gap:6px;">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-              Imprimir
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir
             </span>
           </button>
-          <button class="btn-primary no-print" onclick="exportRelPDF()">
+          <button class="btn-primary no-print" onclick="exportPDF()">
             <span style="display:flex;align-items:center;gap:6px;">
-              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Exportar PDF
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar PDF
             </span>
           </button>
         </div>
       </div>
 
-      <!-- Filtros relatório -->
       <div class="card no-print" style="margin-bottom:16px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-          <div>
-            <label>Colaborador</label>
-            <select id="relFiltroColaborador" onchange="renderRelatorios()">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div>
-            <label>Causa</label>
-            <select id="relFiltroCausa" onchange="renderRelatorios()">
-              <option value="">Todas</option>
-              <option>Salário Maternidade</option>
-              <option>BPC LOAS</option>
-              <option>Auxílio Doença</option>
-              <option>Outros</option>
-            </select>
-          </div>
-          <div>
-            <label>Período — De</label>
-            <input type="date" id="relDe" onchange="renderRelatorios()" />
-          </div>
-          <div>
-            <label>Período — Até</label>
-            <input type="date" id="relAte" onchange="renderRelatorios()" />
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+          <div><label>Colaboradora</label>
+            <select id="relColab" onchange="renderRelatorios()"><option value="">Todas</option></select></div>
+          <div><label>Causa</label>
+            <select id="relCausa" onchange="renderRelatorios()">
+              <option value="">Todas</option><option>Salário Maternidade</option>
+              <option>BPC LOAS</option><option>Auxílio Doença</option><option>Outros</option>
+            </select></div>
+          <div><label>De</label><input type="date" id="relDe" onchange="renderRelatorios()" /></div>
+          <div><label>Até</label><input type="date" id="relAte" onchange="renderRelatorios()" /></div>
         </div>
       </div>
 
-      <!-- Charts relatórios -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;" class="print-area">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
         <div class="card">
-          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Bonificações Pagas vs Pendentes</h3>
+          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Status das Bonificações</h3>
           <canvas id="relChartStatus" height="220"></canvas>
         </div>
         <div class="card">
-          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Evolução Mensal de Bonificações</h3>
+          <h3 style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px;">Honorários Recebidos por Mês</h3>
           <canvas id="relChartMensal" height="220"></canvas>
         </div>
       </div>
 
-      <!-- Tabela relatório detalhado -->
-      <div class="card print-area">
+      <div class="card">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <h3 style="font-size:14px;font-weight:600;color:#0f172a;">Extrato Detalhado</h3>
           <p id="relTotal" style="font-size:13px;font-weight:600;color:#10b981;"></p>
         </div>
         <div style="overflow-x:auto;">
-          <table id="relatorioTable">
-            <thead><tr>
-              <th>Colaborador</th><th>Cliente</th><th>Causa</th>
-              <th>Valor Entrada</th><th>BVE</th><th>Parcelas</th>
-              <th>Bon. Parcelas</th><th>Total Bon.</th><th>Status</th>
-            </tr></thead>
-            <tbody id="relatorioTableBody">
-              <tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
-            </tbody>
-          </table>
+          <table><thead><tr>
+            <th>Colaboradora</th><th>Cliente</th><th>Causa</th>
+            <th>Parcelas rec.</th><th>Total Honorários</th>
+            <th>Bon. Total</th><th>Status</th><th>Previsão Pagto</th><th>Pagto Efetivo</th>
+          </tr></thead>
+          <tbody id="relatorioTableBody"><tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr></tbody></table>
         </div>
       </div>
     </div>
 
-    <!-- ===== USUÁRIOS (admin) ===== -->
+    <!-- USUÁRIOS -->
     <div id="section-usuarios" class="fade-in" style="display:none;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-        <div>
-          <h2 style="font-size:20px;font-weight:700;color:#0f172a;">Usuários</h2>
-          <p style="font-size:13px;color:#64748b;margin-top:2px;">Gerenciar acesso da equipe</p>
-        </div>
+        <div><h2 style="font-size:20px;font-weight:700;color:#0f172a;">Usuários</h2>
+          <p style="font-size:13px;color:#64748b;margin-top:2px;">Gerenciar acesso da equipe</p></div>
         <button class="btn-primary" onclick="openModalUsuario()">
           <span style="display:flex;align-items:center;gap:6px;">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Novo Usuário
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Novo Usuário
           </span>
         </button>
       </div>
-
       <div class="card">
-        <table>
-          <thead><tr>
-            <th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Último acesso</th><th>Ações</th>
-          </tr></thead>
-          <tbody id="usuariosTableBody">
-            <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Último acesso</th><th>Ações</th></tr></thead>
+        <tbody id="usuariosTableBody"><tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr></tbody></table>
       </div>
     </div>
 
-    <!-- ===== AUDITORIA (admin) ===== -->
+    <!-- AUDITORIA -->
     <div id="section-auditoria" class="fade-in" style="display:none;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
-        <div>
-          <h2 style="font-size:20px;font-weight:700;color:#0f172a;">Auditoria</h2>
-          <p style="font-size:13px;color:#64748b;margin-top:2px;">Atividade e acessos do sistema</p>
-        </div>
+      <div style="margin-bottom:24px;">
+        <h2 style="font-size:20px;font-weight:700;color:#0f172a;">Auditoria</h2>
+        <p style="font-size:13px;color:#64748b;margin-top:2px;">Atividade e acessos do sistema</p>
       </div>
-
-      <!-- Online agora -->
       <div class="card" style="margin-bottom:16px;">
-        <h3 style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:12px;display:flex;align-items:center;gap-8px;">
-          <span class="online-dot" style="margin-right:6px;"></span> Online agora
+        <h3 style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+          <span class="online-dot"></span> Online agora
         </h3>
-        <div id="onlineUsersDiv" style="display:flex;flex-wrap:wrap;gap:8px;">
-          <p style="font-size:13px;color:#94a3b8;">Verificando...</p>
-        </div>
+        <div id="onlineUsersDiv"><p style="font-size:13px;color:#94a3b8;">Verificando...</p></div>
       </div>
-
-      <!-- Filtros auditoria -->
       <div class="card" style="margin-bottom:16px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-          <div>
-            <label>Usuário</label>
-            <select id="auditFiltroUser" onchange="renderAuditoria()">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div>
-            <label>Ação</label>
-            <select id="auditFiltroAcao" onchange="renderAuditoria()">
-              <option value="">Todas</option>
-              <option value="login">Login</option>
-              <option value="logout">Logout</option>
-              <option value="criou">Criou</option>
-              <option value="editou">Editou</option>
-              <option value="excluiu">Excluiu</option>
-            </select>
-          </div>
-          <div>
-            <label>De</label>
-            <input type="date" id="auditDe" onchange="renderAuditoria()" />
-          </div>
-          <div>
-            <label>Até</label>
-            <input type="date" id="auditAte" onchange="renderAuditoria()" />
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+          <div><label>Usuário</label>
+            <select id="auditUser" onchange="renderAuditoria()"><option value="">Todos</option></select></div>
+          <div><label>Ação</label>
+            <select id="auditAcao" onchange="renderAuditoria()">
+              <option value="">Todas</option><option value="login">Login</option>
+              <option value="logout">Logout</option><option value="criou">Criou</option>
+              <option value="editou">Editou</option><option value="excluiu">Excluiu</option>
+            </select></div>
+          <div><label>De</label><input type="date" id="auditDe" onchange="renderAuditoria()" /></div>
+          <div><label>Até</label><input type="date" id="auditAte" onchange="renderAuditoria()" /></div>
         </div>
       </div>
-
       <div class="card">
-        <table>
-          <thead><tr>
-            <th>Data/Hora</th><th>Usuário</th><th>Perfil</th><th>Ação</th><th>Detalhe</th><th>IP / Dispositivo</th>
-          </tr></thead>
-          <tbody id="auditoriaTableBody">
-            <tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr>
-          </tbody>
-        </table>
+        <table><thead><tr><th>Data/Hora</th><th>Usuário</th><th>Perfil</th><th>Ação</th><th>Detalhe</th></tr></thead>
+        <tbody id="auditoriaTableBody"><tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:32px;">Carregando...</td></tr></tbody></table>
       </div>
     </div>
 
-  </div><!-- /mainContent -->
-</div><!-- /mainApp -->
+  </div>
+</div>
 
-<!-- ===================== MODAL CONTRATO ===================== -->
+<!-- MODAL CONTRATO -->
 <div id="modalContrato" class="modal-overlay" style="display:none;">
   <div class="modal-box fade-in">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -487,49 +388,31 @@
       </button>
     </div>
 
-    <input type="hidden" id="contratoEditId" />
-
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div>
-        <label>Colaborador *</label>
-        <select id="cColaborador">
-          <option value="">Selecione...</option>
-        </select>
-      </div>
-      <div>
-        <label>Cliente *</label>
-        <input type="text" id="cCliente" placeholder="Nome completo" />
-      </div>
-      <div>
-        <label>Causa *</label>
+      <div><label>Colaboradora *</label>
+        <select id="cColab"><option value="">Selecione...</option></select></div>
+      <div><label>Cliente *</label>
+        <input type="text" id="cCliente" placeholder="Nome completo" /></div>
+      <div><label>Causa *</label>
         <select id="cCausa">
           <option value="">Selecione...</option>
-          <option>Salário Maternidade</option>
-          <option>BPC LOAS</option>
-          <option>Auxílio Doença</option>
-          <option>Outros</option>
-        </select>
-      </div>
-      <div>
-        <label>Valor de Entrada (R$)</label>
-        <input type="number" id="cEntrada" placeholder="0,00" step="0.01" min="0" />
-      </div>
-      <div>
-        <label>% BVE (Bônus Entrada)</label>
-        <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" />
-      </div>
-      <div>
-        <label>Data Pgmt Entrada</label>
-        <input type="date" id="cDataEntrada" />
-      </div>
-      <div>
-        <label>Honorários Finais (R$)</label>
-        <input type="number" id="cHonorarios" placeholder="0,00" step="0.01" min="0" />
-      </div>
-      <div>
-        <label>% BF (Bônus Final)</label>
-        <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" />
-      </div>
+          <option>Salário Maternidade</option><option>BPC LOAS</option>
+          <option>Auxílio Doença</option><option>Outros</option>
+        </select></div>
+      <div><label>Nº de Parcelas Previstas</label>
+        <input type="number" id="cNumParcelas" placeholder="Ex: 4" min="1" max="12" /></div>
+      <div><label>Valor de Entrada (R$)</label>
+        <input type="number" id="cEntrada" placeholder="0,00" step="0.01" min="0" /></div>
+      <div><label>% BVE (Bônus sobre Entrada)</label>
+        <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" /></div>
+      <div><label>Data Pgmt Entrada</label>
+        <input type="date" id="cDataEntrada" /></div>
+      <div><label>Honorários Totais Previstos (R$)</label>
+        <input type="number" id="cHonorarios" placeholder="0,00" step="0.01" min="0" /></div>
+      <div><label>% BF (Bônus Final sobre Honorários)</label>
+        <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" /></div>
+      <div><label>Data Efetiva Pagto Bonificação</label>
+        <input type="date" id="cDataPagtoBon" /></div>
     </div>
 
     <div style="margin-top:14px;">
@@ -537,13 +420,23 @@
       <textarea id="cObs" rows="2" placeholder="Anotações sobre o contrato..."></textarea>
     </div>
 
-    <!-- Parcelas -->
+    <!-- Parcelas de honorários recebidos -->
     <div style="margin-top:20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <h4 style="font-size:13px;font-weight:600;color:#0f172a;">Parcelas</h4>
-        <button type="button" onclick="addParcelaForm()" style="background:#f1f5f9;color:#475569;padding:5px 12px;border-radius:7px;font-size:12px;border:none;cursor:pointer;font-weight:500;">+ Adicionar Parcela</button>
+        <div>
+          <h4 style="font-size:13px;font-weight:600;color:#0f172a;">Honorários Recebidos por Parcela</h4>
+          <p style="font-size:11px;color:#64748b;margin-top:2px;">Registre cada parcela à medida que o escritório receber</p>
+        </div>
+        <button type="button" onclick="addParcelaForm()" style="background:#f1f5f9;color:#475569;padding:5px 12px;border-radius:7px;font-size:12px;border:none;cursor:pointer;font-weight:500;">+ Parcela</button>
       </div>
       <div id="parcelasContainer"></div>
+      <div id="resumoBonificacao" style="display:none;margin-top:12px;padding:12px;background:#f0fdf4;border-radius:8px;border:1px solid #bbf7d0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:13px;color:#166534;font-weight:500;">Total Bonificação Calculada:</span>
+          <span id="totalBonCalc" style="font-size:16px;font-weight:700;color:#166534;">R$ 0,00</span>
+        </div>
+        <p style="font-size:11px;color:#4ade80;margin-top:4px;">Será pago 30 dias após o recebimento da última parcela</p>
+      </div>
     </div>
 
     <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
@@ -553,26 +446,26 @@
   </div>
 </div>
 
-<!-- ===================== MODAL VER PARCELAS ===================== -->
+<!-- MODAL VER PARCELAS -->
 <div id="modalParcelas" class="modal-overlay" style="display:none;">
-  <div class="modal-box fade-in" style="max-width:760px;">
+  <div class="modal-box fade-in" style="max-width:780px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
-        <h3 id="modalParcelasTitle" style="font-size:17px;font-weight:700;color:#0f172a;"></h3>
-        <p id="modalParcelasSubtitle" style="font-size:13px;color:#64748b;margin-top:2px;"></p>
+        <h3 id="mpTitle" style="font-size:17px;font-weight:700;color:#0f172a;"></h3>
+        <p id="mpSubtitle" style="font-size:13px;color:#64748b;margin-top:2px;"></p>
       </div>
       <button onclick="closeModalParcelas()" style="background:none;border:none;cursor:pointer;color:#94a3b8;">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
-    <div id="modalParcelasContent"></div>
+    <div id="mpContent"></div>
     <div style="display:flex;justify-content:flex-end;margin-top:20px;">
       <button class="btn-secondary" onclick="closeModalParcelas()">Fechar</button>
     </div>
   </div>
 </div>
 
-<!-- ===================== MODAL USUÁRIO ===================== -->
+<!-- MODAL USUÁRIO -->
 <div id="modalUsuario" class="modal-overlay" style="display:none;">
   <div class="modal-box fade-in" style="max-width:440px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -585,16 +478,11 @@
       <div><label>Nome completo *</label><input type="text" id="uNome" placeholder="João Silva" /></div>
       <div><label>E-mail *</label><input type="email" id="uEmail" placeholder="joao@email.com" /></div>
       <div><label>Senha inicial *</label><input type="password" id="uSenha" placeholder="Mínimo 6 caracteres" /></div>
-      <div>
-        <label>Perfil *</label>
-        <select id="uPerfil">
-          <option value="colaborador">Colaborador</option>
-          <option value="admin">Administrador</option>
-        </select>
-      </div>
+      <div><label>Perfil *</label>
+        <select id="uPerfil"><option value="colaborador">Colaborador</option><option value="admin">Administrador</option></select></div>
     </div>
     <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px;margin-top:14px;">
-      <p style="font-size:12px;color:#166534;">⚠️ O usuário receberá acesso com as credenciais informadas. Comunique a senha de forma segura.</p>
+      <p style="font-size:12px;color:#166534;">Comunique a senha à colaboradora de forma segura após criar o acesso.</p>
     </div>
     <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;">
       <button class="btn-secondary" onclick="closeModalUsuario()">Cancelar</button>
@@ -603,19 +491,14 @@
   </div>
 </div>
 
-<!-- Toast -->
 <div id="toast" class="toast" style="display:none;"></div>
 
-<!-- ===================== FIREBASE + JS ===================== -->
 <script type="module">
-
-// ============================================================
-// 🔧 CONFIGURAÇÃO DO FIREBASE — substitua pelos seus valores
-// ============================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword }
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
+         createUserWithEmailAndPassword, sendPasswordResetEmail }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, getDocs,
+import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc,
          onSnapshot, query, orderBy, where, serverTimestamp, setDoc, getDoc }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -627,709 +510,774 @@ const firebaseConfig = {
   messagingSenderId: "140480005581",
   appId:             "1:140480005581:web:87eeb4a436cb8e7062f084"
 };
-// ============================================================
 
-const app    = initializeApp(firebaseConfig);
-const auth   = getAuth(app);
-const db     = getFirestore(app);
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-// ─── Estado global ───────────────────────────────────────────
-let currentUser   = null;
-let currentRole   = 'colaborador';
-let currentName   = '';
-let allContratos  = [];
-let allUsuarios   = [];
-let allAuditoria  = [];
-let charts        = {};
-let parcelaCount  = 0;
-let editingContratoId = null;
+// ── Estado ──────────────────────────────────────────────────
+let currentUser = null, currentRole = 'colaborador', currentName = '';
+let allContratos = [], allUsuarios = [], allAuditoria = [];
+let charts = {}, parcelaCount = 0, editingId = null;
 
-// ─── Utils ───────────────────────────────────────────────────
-const fmt = v => 'R$ ' + Number(v||0).toLocaleString('pt-BR', {minimumFractionDigits:2});
-const fmtDate = ts => {
-  if (!ts) return '—';
-  if (ts.toDate) return ts.toDate().toLocaleDateString('pt-BR');
-  if (typeof ts === 'string') return ts.split('-').reverse().join('/');
-  return '—';
-};
-const fmtDateTime = ts => {
-  if (!ts) return '—';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
-};
+// ── Utils ────────────────────────────────────────────────────
+const fmt = v => 'R$ ' + Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2});
+const fmtDate = s => { if(!s) return '—'; if(typeof s==='string') return s.split('-').reverse().join('/'); if(s.toDate) return s.toDate().toLocaleDateString('pt-BR'); return '—'; };
+const fmtDT   = ts => { if(!ts) return '—'; const d=ts.toDate?ts.toDate():new Date(ts); return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); };
+const addDays = (dateStr, days) => { if(!dateStr) return null; const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()+days); return d.toISOString().split('T')[0]; };
+const today   = () => new Date().toISOString().split('T')[0];
+
 function showToast(msg, color='#1e293b') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.style.background = color; t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3200);
+  const t=document.getElementById('toast'); t.textContent=msg; t.style.background=color; t.style.display='block';
+  setTimeout(()=>t.style.display='none',3200);
 }
-function getStatusContrato(contrato) {
-  const parc = contrato.parcelas || [];
-  if (!parc.length) return 'pendente';
-  const pagas = parc.filter(p => p.statusBon === 'pago').length;
-  if (pagas === 0) return 'pendente';
-  if (pagas === parc.length) return 'pago';
-  return 'parcial';
+
+// ── Lógica de status ─────────────────────────────────────────
+function calcContrato(c) {
+  const parc = c.parcelas||[];
+  const totalHon = parc.reduce((a,p)=>a+Number(p.honorarios||0),0);
+  const bonParcelas = parc.reduce((a,p)=>a+Number(p.bonificacao||0),0);
+  const bveValor = Number(c.bveValor||0);
+  const bfValor  = Number(c.honorariosFinais||0)*Number(c.bfPct||0)/100;
+  const bonTotal = bveValor + bonParcelas + bfValor;
+
+  // Última parcela recebida
+  const datas = parc.filter(p=>p.dataPgmt).map(p=>p.dataPgmt).sort();
+  const ultimaParcela = datas.length ? datas[datas.length-1] : null;
+  const numParcPrevistas = Number(c.numParcelas||0);
+  const todasRecebidas = numParcPrevistas > 0 && parc.filter(p=>p.dataPgmt).length >= numParcPrevistas;
+
+  // Previsão: 30 dias após última parcela
+  const previsaoPagto = ultimaParcela ? addDays(ultimaParcela, 30) : null;
+
+  // Status
+  let status = 'aguardando_parcelas';
+  if (c.dataPagtoBon) {
+    status = 'paga';
+  } else if (todasRecebidas && previsaoPagto) {
+    status = previsaoPagto <= today() ? 'vencida' : 'aguardando_30dias';
+  } else if (parc.some(p=>p.dataPgmt)) {
+    status = 'aguardando_parcelas';
+  }
+
+  return { totalHon, bonTotal, bonParcelas, bveValor, bfValor, ultimaParcela, previsaoPagto, todasRecebidas, status };
 }
+
 function statusBadge(s) {
-  const map = {pago:'status-pago',pendente:'status-pendente',parcial:'status-parcial'};
-  const lbl = {pago:'Pago',pendente:'Pendente',parcial:'Parcial'};
-  return `<span class="${map[s]||'status-pendente'}" style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;">${lbl[s]||s}</span>`;
-}
-function calcBonTotal(contrato) {
-  const bve = Number(contrato.bveValor||0);
-  const bvp = (contrato.parcelas||[]).reduce((a,p)=>a+Number(p.bonificacao||0),0);
-  const bff = Number(contrato.honorariosFinais||0) * Number(contrato.bfPct||0)/100;
-  return bve + bvp + bff;
+  const map = {
+    paga:              ['#d1fae5','#065f46','Bonif. Paga'],
+    aguardando_30dias: ['#dbeafe','#1e40af','Aguard. 30 dias'],
+    vencida:           ['#fef2f2','#dc2626','⚠ Vencida'],
+    aguardando_parcelas:['#f1f5f9','#475569','Aguard. Parcelas'],
+  };
+  const [bg,tc,lb] = map[s]||map['aguardando_parcelas'];
+  return `<span style="background:${bg};color:${tc};font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;">${lb}</span>`;
 }
 
-// ─── Auditoria helper ─────────────────────────────────────────
+// ── Auditoria ─────────────────────────────────────────────────
 async function logAudit(acao, detalhe) {
-  try {
-    await addDoc(collection(db,'auditoria'), {
-      userId: currentUser.uid,
-      userName: currentName,
-      userRole: currentRole,
-      acao, detalhe,
-      timestamp: serverTimestamp(),
-      userAgent: navigator.userAgent.substring(0,100)
-    });
-  } catch(e) { console.warn('Audit error', e); }
+  try { await addDoc(collection(db,'auditoria'),{userId:currentUser.uid,userName:currentName,userRole:currentRole,acao,detalhe,timestamp:serverTimestamp(),userAgent:navigator.userAgent.substring(0,100)}); } catch(e){}
 }
 
-// ─── Presença online ─────────────────────────────────────────
-async function setOnline(uid) {
-  await setDoc(doc(db,'presence',uid),{
-    name: currentName, role: currentRole,
-    online: true, lastSeen: serverTimestamp()
-  });
-}
-async function setOffline(uid) {
-  try {
-    await updateDoc(doc(db,'presence',uid),{online:false, lastSeen: serverTimestamp()});
-  } catch(e){}
-}
+// ── Presença ──────────────────────────────────────────────────
+async function setOnline(uid) { await setDoc(doc(db,'presence',uid),{name:currentName,role:currentRole,online:true,lastSeen:serverTimestamp()}); }
+async function setOffline(uid) { try{await updateDoc(doc(db,'presence',uid),{online:false,lastSeen:serverTimestamp()});}catch(e){} }
 function listenPresence() {
   onSnapshot(collection(db,'presence'), snap => {
-    const online = snap.docs.filter(d=>d.data().online);
-    document.getElementById('onlineCount').textContent = `${online.length} online`;
-    const div = document.getElementById('onlineUsersDiv');
-    if (!div) return;
-    div.innerHTML = online.length
-      ? online.map(d=>`<span style="display:flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;color:#166534;">
-          <span class="online-dot"></span>${d.data().name}</span>`).join('')
-      : '<p style="font-size:13px;color:#94a3b8;">Nenhum usuário online</p>';
+    const on = snap.docs.filter(d=>d.data().online);
+    document.getElementById('onlineCount').textContent = `${on.length} online`;
+    const div=document.getElementById('onlineUsersDiv'); if(!div) return;
+    div.innerHTML = on.length ? on.map(d=>`<span style="display:flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;color:#166534;"><span class="online-dot"></span>${d.data().name}</span>`).join('') : '<p style="font-size:13px;color:#94a3b8;">Nenhum online</p>';
   });
 }
 
-// ─── Auth ─────────────────────────────────────────────────────
+// ── Login / Logout ────────────────────────────────────────────
 window.doLogin = async function() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass  = document.getElementById('loginPassword').value;
-  const errEl = document.getElementById('loginError');
-  const btn   = document.querySelector('#loginScreen .btn-primary');
-  errEl.style.display = 'none';
-  if (!email || !pass) {
-    errEl.textContent = 'Preencha e-mail e senha.';
-    errEl.style.display = 'block';
-    return;
-  }
-  btn.textContent = 'Entrando...';
-  btn.disabled = true;
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    btn.textContent = 'Entrar';
-    btn.disabled = false;
-    const msgs = {
-      'auth/invalid-credential': 'E-mail ou senha incorretos.',
-      'auth/user-not-found': 'Usuário não encontrado.',
-      'auth/wrong-password': 'Senha incorreta.',
-      'auth/invalid-email': 'E-mail inválido.',
-      'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos.',
-      'auth/network-request-failed': 'Erro de conexão. Verifique sua internet.',
-    };
-    errEl.textContent = msgs[e.code] || 'Erro: ' + e.code;
-    errEl.style.display = 'block';
+  const email=document.getElementById('loginEmail').value.trim();
+  const pass=document.getElementById('loginPassword').value;
+  const errEl=document.getElementById('loginError');
+  const btn=document.getElementById('btnLogin');
+  errEl.style.display='none';
+  if(!email||!pass){errEl.textContent='Preencha e-mail e senha.';errEl.style.display='block';return;}
+  btn.textContent='Entrando...'; btn.disabled=true;
+  try { await signInWithEmailAndPassword(auth,email,pass); }
+  catch(e) {
+    btn.textContent='Entrar'; btn.disabled=false;
+    const msgs={'auth/invalid-credential':'E-mail ou senha incorretos.','auth/user-not-found':'Usuário não encontrado.','auth/wrong-password':'Senha incorreta.','auth/too-many-requests':'Muitas tentativas. Aguarde.','auth/network-request-failed':'Erro de conexão.'};
+    errEl.textContent=msgs[e.code]||'Erro: '+e.code; errEl.style.display='block';
   }
 };
 
 window.doLogout = async function() {
-  if (currentUser) {
-    await setOffline(currentUser.uid);
-    await logAudit('logout', 'Encerrou a sessão');
-    await signOut(auth);
-  }
+  if(currentUser){await setOffline(currentUser.uid);await logAudit('logout','Encerrou sessão');await signOut(auth);}
+};
+
+window.toggleSenha = function() {
+  const inp=document.getElementById('loginPassword');
+  const on=document.getElementById('eyeOn'); const off=document.getElementById('eyeOff');
+  if(inp.type==='password'){inp.type='text';on.style.display='none';off.style.display='block';}
+  else{inp.type='password';on.style.display='block';off.style.display='none';}
+};
+
+window.esqueceuSenha = async function() {
+  const email=document.getElementById('loginEmail').value.trim();
+  if(!email){showToast('Digite seu e-mail acima primeiro.','#dc2626');return;}
+  try{await sendPasswordResetEmail(auth,email);showToast('E-mail de recuperação enviado!','#10b981');}
+  catch(e){showToast('Erro ao enviar e-mail.','#dc2626');}
 };
 
 onAuthStateChanged(auth, async user => {
-  if (user) {
-    currentUser = user;
-    // Carregar perfil do Firestore
-    const profileSnap = await getDoc(doc(db,'usuarios', user.uid));
-    if (profileSnap.exists()) {
-      const p = profileSnap.data();
-      currentRole = p.role || 'colaborador';
-      currentName = p.nome || user.email;
-    } else {
-      // Fallback — cria perfil básico se não existir
-      currentRole = 'colaborador';
-      currentName = user.displayName || user.email;
-    }
+  if(user) {
+    currentUser=user;
+    const snap=await getDoc(doc(db,'usuarios',user.uid));
+    if(snap.exists()){const p=snap.data();currentRole=p.role||'colaborador';currentName=p.nome||user.email;}
+    else{currentRole='colaborador';currentName=user.displayName||user.email;}
     await setOnline(user.uid);
-    await logAudit('login', 'Iniciou sessão');
+    await logAudit('login','Iniciou sessão');
     initApp();
   } else {
-    currentUser = null;
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('mainApp').style.display = 'none';
+    currentUser=null;
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('mainApp').style.display='none';
+    document.getElementById('btnLogin').textContent='Entrar';
+    document.getElementById('btnLogin').disabled=false;
   }
 });
 
 function initApp() {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'flex';
-  document.getElementById('sidebarUserName').textContent = currentName;
-  document.getElementById('sidebarUserRole').textContent = currentRole === 'admin' ? 'Administrador' : 'Colaborador';
-
-  // Mostrar itens admin
-  if (currentRole === 'admin') {
-    document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
-  }
-
-  listenContratos();
-  listenUsuarios();
-  listenPresence();
-  if (currentRole === 'admin') listenAuditoria();
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('mainApp').style.display='flex';
+  document.getElementById('sidebarUserName').textContent=currentName;
+  document.getElementById('sidebarUserRole').textContent=currentRole==='admin'?'Administrador':'Colaboradora';
+  if(currentRole==='admin') document.querySelectorAll('.admin-only').forEach(el=>el.style.display='flex');
+  listenContratos(); listenUsuarios(); listenPresence();
+  if(currentRole==='admin') listenAuditoria();
   showSection('dashboard');
-  populateColaboradorSelects();
 }
 
-// ─── Navegação ────────────────────────────────────────────────
+// ── Navegação ─────────────────────────────────────────────────
 window.showSection = function(sec) {
-  ['dashboard','lancamentos','relatorios','usuarios','auditoria'].forEach(s => {
-    document.getElementById('section-'+s).style.display = s===sec ? 'block' : 'none';
-    const nav = document.getElementById('nav-'+s);
-    if (nav) { nav.className = s===sec ? 'sidebar-item active' : 'sidebar-item' + (nav.classList.contains('admin-only') ? ' admin-only' : ''); }
+  ['dashboard','lancamentos','relatorios','usuarios','auditoria'].forEach(s=>{
+    document.getElementById('section-'+s).style.display=s===sec?'block':'none';
+    const nav=document.getElementById('nav-'+s);
+    if(nav) nav.className='sidebar-item'+(s===sec?' active':'')+(nav.classList.contains('admin-only')?' admin-only':'');
   });
-  if (sec === 'relatorios') { setTimeout(()=>renderRelatorios(),100); }
-  if (sec === 'dashboard')  { setTimeout(()=>renderDashboard(),100); }
+  if(sec==='relatorios') setTimeout(()=>renderRelatorios(),100);
+  if(sec==='dashboard')  setTimeout(()=>renderDashboard(),100);
 };
 
-// ─── Colaboradores dinâmicos ──────────────────────────────────
-function populateColaboradorSelects() {
-  const names = [...new Set(allUsuarios.filter(u=>u.role==='colaborador').map(u=>u.nome))];
-  ['filtroColaborador','relFiltroColaborador','cColaborador'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const first = el.querySelector('option');
-    el.innerHTML = '';
-    if (first) el.appendChild(first);
-    else { const o=document.createElement('option'); o.value=''; o.textContent='Todos'; el.appendChild(o); }
-    names.forEach(n => { const o=document.createElement('option'); o.value=n; o.textContent=n; el.appendChild(o); });
-  });
-}
-
-// ─── Realtime listeners ───────────────────────────────────────
+// ── Listeners Firestore ───────────────────────────────────────
 function listenContratos() {
-  const q = currentRole === 'admin'
-    ? query(collection(db,'contratos'), orderBy('createdAt','desc'))
-    : query(collection(db,'contratos'), where('colaborador','==',currentName), orderBy('createdAt','desc'));
-  onSnapshot(q, snap => {
-    allContratos = snap.docs.map(d => ({id:d.id, ...d.data()}));
-    renderLancamentos();
-    renderDashboard();
-    if (document.getElementById('section-relatorios').style.display !== 'none') renderRelatorios();
+  const q = currentRole==='admin'
+    ? query(collection(db,'contratos'),orderBy('createdAt','desc'))
+    : query(collection(db,'contratos'),where('colaborador','==',currentName),orderBy('createdAt','desc'));
+  onSnapshot(q, snap=>{
+    allContratos=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderLancamentos(); renderDashboard();
+    if(document.getElementById('section-relatorios').style.display!=='none') renderRelatorios();
   });
 }
-
 function listenUsuarios() {
-  onSnapshot(collection(db,'usuarios'), snap => {
-    allUsuarios = snap.docs.map(d => ({id:d.id, ...d.data()}));
-    renderUsuarios();
-    populateColaboradorSelects();
-    populateAuditUserSelect();
+  onSnapshot(collection(db,'usuarios'), snap=>{
+    allUsuarios=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderUsuarios(); populateColabSelects(); populateAuditUsers();
   });
 }
-
 function listenAuditoria() {
-  onSnapshot(query(collection(db,'auditoria'), orderBy('timestamp','desc')), snap => {
-    allAuditoria = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  onSnapshot(query(collection(db,'auditoria'),orderBy('timestamp','desc')), snap=>{
+    allAuditoria=snap.docs.map(d=>({id:d.id,...d.data()}));
     renderAuditoria();
   });
 }
 
-// ─── DASHBOARD ────────────────────────────────────────────────
-function renderDashboard() {
-  const contratos = allContratos;
-  let totalPagar=0, totalPago=0, parcPendentes=0;
-  contratos.forEach(c => {
-    totalPagar += (c.parcelas||[]).filter(p=>p.statusBon!=='pago').reduce((a,p)=>a+Number(p.bonificacao||0),0);
-    totalPago  += (c.parcelas||[]).filter(p=>p.statusBon==='pago').reduce((a,p)=>a+Number(p.bonificacao||0),0);
-    totalPago  += c.bveValor && c.bvePago ? Number(c.bveValor) : 0;
-    parcPendentes += (c.parcelas||[]).filter(p=>p.statusBon!=='pago').length;
+function populateColabSelects() {
+  const names=[...new Set(allUsuarios.filter(u=>u.role==='colaborador').map(u=>u.nome))];
+  ['filtroColab','relColab','cColab'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    const cur=el.value; const first=el.options[0]?.text||'Todas';
+    el.innerHTML=`<option value="">${first}</option>`;
+    names.forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;el.appendChild(o);});
+    el.value=cur;
   });
-  document.getElementById('kpiTotalPagar').textContent = fmt(totalPagar);
-  document.getElementById('kpiTotalPago').textContent = fmt(totalPago);
-  document.getElementById('kpiContratos').textContent = contratos.length;
-  document.getElementById('kpiParcelasPendentes').textContent = parcPendentes;
-
-  // Tabela recente
-  const tbody = document.getElementById('dashboardTableBody');
-  const recent = contratos.slice(0,8);
-  if (!recent.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum lançamento ainda</td></tr>'; }
-  else tbody.innerHTML = recent.map(c=>`<tr>
-    <td><span style="font-weight:500;">${c.colaborador}</span></td>
-    <td>${c.cliente}</td><td>${c.causa}</td>
-    <td>${(c.parcelas||[]).length} parcela(s)</td>
-    <td>${statusBadge(getStatusContrato(c))}</td>
-    <td style="color:#64748b;">${fmtDate(c.dataEntrada||c.createdAt)}</td>
-  </tr>`).join('');
-
-  // Chart colaborador
-  const byColaborador = {};
-  contratos.forEach(c => { byColaborador[c.colaborador] = (byColaborador[c.colaborador]||0) + calcBonTotal(c); });
-  renderChart('chartColaborador','bar', Object.keys(byColaborador), [Object.values(byColaborador)],
-    ['Bonificação Total (R$)'], ['rgba(16,185,129,0.8)']);
-
-  // Chart causa
-  const byCausa = {};
-  contratos.forEach(c => { byCausa[c.causa] = (byCausa[c.causa]||0)+1; });
-  renderChart('chartCausa','doughnut', Object.keys(byCausa), [Object.values(byCausa)],
-    ['Contratos'], ['#10b981','#3b82f6','#f59e0b','#6366f1']);
+}
+function populateAuditUsers() {
+  const el=document.getElementById('auditUser'); if(!el) return;
+  const cur=el.value;
+  el.innerHTML='<option value="">Todos</option>';
+  [...new Set(allUsuarios.map(u=>u.nome))].forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;el.appendChild(o);});
+  el.value=cur;
 }
 
-// ─── LANÇAMENTOS ─────────────────────────────────────────────
-window.renderLancamentos = function() {
-  let data = [...allContratos];
-  const fc = document.getElementById('filtroColaborador')?.value;
-  const fca = document.getElementById('filtroCausa')?.value;
-  const fs = document.getElementById('filtroStatus')?.value;
-  const fb = document.getElementById('filtroBusca')?.value?.toLowerCase();
-  if (fc) data = data.filter(c=>c.colaborador===fc);
-  if (fca) data = data.filter(c=>c.causa===fca);
-  if (fs) data = data.filter(c=>getStatusContrato(c)===fs);
-  if (fb) data = data.filter(c=>c.cliente?.toLowerCase().includes(fb));
+// ── Filtro período dashboard ─────────────────────────────────
+let dashPeriodo = 'mes_atual';
+window.setDashPeriodo = function(p) {
+  dashPeriodo = p;
+  ['mes_atual','mes_anterior','todos','mes_especifico','periodo'].forEach(id => {
+    const btn = document.getElementById('dbf-'+id);
+    if (!btn) return;
+    if (id === p) { btn.style.background='#10b981'; btn.style.color='white'; btn.style.borderColor='#10b981'; }
+    else { btn.style.background='white'; btn.style.color='#475569'; btn.style.borderColor='#e2e8f0'; }
+  });
+  document.getElementById('dashFiltroMes').style.display = p==='mes_especifico' ? 'block' : 'none';
+  const pfDiv = document.getElementById('dashFiltroPeriodo');
+  pfDiv.style.display = p==='periodo' ? 'flex' : 'none';
+  renderDashboard();
+};
 
-  const tbody = document.getElementById('lancamentosTableBody');
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum contrato encontrado</td></tr>'; return; }
-  tbody.innerHTML = data.map(c => {
-    const st = getStatusContrato(c);
-    const bve = fmt(c.bveValor||0);
-    const bonTotal = fmt(calcBonTotal(c));
-    const canEdit = currentRole==='admin' || c.colaborador===currentName;
-    const canDel = currentRole==='admin';
+function filtroDashDatas(contratos) {
+  const td = today();
+  const now = new Date(td);
+  if (dashPeriodo === 'todos') {
+    document.getElementById('dashPeriodoLabel').textContent = '— Todos os registros';
+    return contratos;
+  }
+  if (dashPeriodo === 'mes_atual') {
+    const ym = td.substring(0,7);
+    document.getElementById('dashPeriodoLabel').textContent = '— ' + new Date(now.getFullYear(), now.getMonth(), 1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    return contratos.filter(c => {
+      const datas = (c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      const dc = c.dataEntrada || c.createdAt;
+      const dcStr = typeof dc === 'string' ? dc : (dc?.toDate?.()?.toISOString().substring(0,7));
+      return datas.some(d=>d.startsWith(ym)) || (dcStr&&dcStr.startsWith(ym));
+    });
+  }
+  if (dashPeriodo === 'mes_anterior') {
+    const d = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    const ym = d.toISOString().substring(0,7);
+    document.getElementById('dashPeriodoLabel').textContent = '— ' + d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    return contratos.filter(c => {
+      const datas = (c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      const dc = c.dataEntrada || '';
+      return datas.some(d=>d.startsWith(ym)) || dc.startsWith(ym);
+    });
+  }
+  if (dashPeriodo === 'mes_especifico') {
+    const ym = document.getElementById('dashMes')?.value;
+    if (!ym) { document.getElementById('dashPeriodoLabel').textContent=''; return contratos; }
+    const [y,m] = ym.split('-');
+    document.getElementById('dashPeriodoLabel').textContent = '— ' + new Date(y,m-1,1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    return contratos.filter(c => {
+      const datas = (c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      const dc = c.dataEntrada || '';
+      return datas.some(d=>d.startsWith(ym)) || dc.startsWith(ym);
+    });
+  }
+  if (dashPeriodo === 'periodo') {
+    const de = document.getElementById('dashDe')?.value;
+    const ate = document.getElementById('dashAte')?.value;
+    if (!de && !ate) { document.getElementById('dashPeriodoLabel').textContent=''; return contratos; }
+    document.getElementById('dashPeriodoLabel').textContent = `— ${de?fmtDate(de):'início'} a ${ate?fmtDate(ate):'hoje'}`;
+    return contratos.filter(c => {
+      const datas = (c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      const dc = c.dataEntrada || '';
+      const dentroDeData = d => (!de||d>=de) && (!ate||d<=ate);
+      return datas.some(d=>dentroDeData(d)) || dentroDeData(dc);
+    });
+  }
+  return contratos;
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────
+function renderDashboard() {
+  const td=today();
+  let aPagar=0, pagas=0, vencidas=0;
+  const alertas=[];
+
+  allContratos.forEach(c=>{
+    const {bonTotal,status,previsaoPagto,todasRecebidas} = calcContrato(c);
+    if(status==='paga') pagas+=bonTotal;
+    else if(status==='vencida'){aPagar+=bonTotal;vencidas++;alertas.push({tipo:'vencida',c,bonTotal,previsaoPagto});}
+    else if(status==='aguardando_30dias'){aPagar+=bonTotal;
+      // Alerta se falta menos de 7 dias
+      const diff=Math.ceil((new Date(previsaoPagto)-new Date(td))/(86400000));
+      if(diff<=7) alertas.push({tipo:'proximo',c,bonTotal,previsaoPagto,diff});
+    }
+  });
+
+  document.getElementById('kpiAPagar').textContent=fmt(aPagar);
+  document.getElementById('kpiPagas').textContent=fmt(pagas);
+  document.getElementById('kpiVencidas').textContent=vencidas;
+  document.getElementById('kpiContratos').textContent=allContratos.length;
+
+  // Alertas
+  const aDiv=document.getElementById('alertasDiv');
+  aDiv.innerHTML='';
+  alertas.slice(0,5).forEach(a=>{
+    const div=document.createElement('div');
+    if(a.tipo==='vencida'){
+      div.className='alerta-vencido';
+      div.innerHTML=`<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span style="font-size:13px;font-weight:600;color:#dc2626;">VENCIDA — Pagar já!</span></div><p style="font-size:12px;color:#7f1d1d;margin-top:4px;">${a.c.colaborador} · ${a.c.cliente} · ${fmt(a.bonTotal)} · Previsão era ${fmtDate(a.previsaoPagto)}</p>`;
+    } else {
+      div.className='alerta-proximo';
+      div.innerHTML=`<div style="display:flex;align-items:center;gap:8px;"><svg width="16" height="16" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span style="font-size:13px;font-weight:600;color:#92400e;">Vence em ${a.diff} dia(s)</span></div><p style="font-size:12px;color:#78350f;margin-top:4px;">${a.c.colaborador} · ${a.c.cliente} · ${fmt(a.bonTotal)} · Pagar em ${fmtDate(a.previsaoPagto)}</p>`;
+    }
+    aDiv.appendChild(div);
+  });
+
+  // Filtrar por período
+  const filtrados = filtroDashDatas([...allContratos]);
+
+  // KPIs usam todos os contratos (não filtrado por período)
+  // Tabela usa filtrados
+  const tbody=document.getElementById('dashboardTableBody');
+  tbody.innerHTML=filtrados.length ? filtrados.map(c=>{
+    const {bonTotal,status,previsaoPagto}=calcContrato(c);
+    const parcRecebidas=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
+    return `<tr style="cursor:pointer;" onclick="openModalParcelas('${c.id}')" title="Clique para ver detalhamento">
+      <td style="font-weight:500;">${c.colaborador}</td>
+      <td><span style="color:#1d4ed8;font-weight:500;text-decoration:underline;text-decoration-style:dotted;">${c.cliente}</span></td>
+      <td>${c.causa}</td>
+      <td style="text-align:center;">${parcRecebidas}/${c.numParcelas||'?'}</td>
+      <td style="font-weight:600;color:#10b981;">${fmt(bonTotal)}</td>
+      <td>${statusBadge(status)}</td>
+      <td style="color:#64748b;font-size:12px;">${fmtDate(previsaoPagto)||'—'}</td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum lançamento no período</td></tr>';
+
+  // Charts (sempre todos)
+  const byColab={};
+  allContratos.forEach(c=>{const {bonTotal}=calcContrato(c);byColab[c.colaborador]=(byColab[c.colaborador]||0)+bonTotal;});
+  renderChart('chartColaborador','bar',Object.keys(byColab),[Object.values(byColab)],['Bon. Total'],['rgba(16,185,129,0.8)']);
+  const byCausa={};
+  allContratos.forEach(c=>{byCausa[c.causa]=(byCausa[c.causa]||0)+1;});
+  renderChart('chartCausa','doughnut',Object.keys(byCausa),[Object.values(byCausa)],['Contratos'],['#10b981','#3b82f6','#f59e0b','#6366f1']);
+}
+
+// ── LANÇAMENTOS ───────────────────────────────────────────────
+window.renderLancamentos = function() {
+  let data=[...allContratos];
+  const fc=document.getElementById('filtroColab')?.value;
+  const fca=document.getElementById('filtroCausa')?.value;
+  const fs=document.getElementById('filtroStatus')?.value;
+  const fb=document.getElementById('filtroBusca')?.value?.toLowerCase();
+  if(fc) data=data.filter(c=>c.colaborador===fc);
+  if(fca) data=data.filter(c=>c.causa===fca);
+  if(fb) data=data.filter(c=>c.cliente?.toLowerCase().includes(fb));
+
+  if(fs) data=data.filter(c=>calcContrato(c).status===fs);
+
+  const tbody=document.getElementById('lancamentosTableBody');
+  if(!data.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum contrato encontrado</td></tr>';return;}
+  tbody.innerHTML=data.map(c=>{
+    const {bonTotal,status,previsaoPagto,totalHon}=calcContrato(c);
+    const parcRecebidas=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
+    const canEdit=currentRole==='admin'||c.colaborador===currentName;
+    const canDel=currentRole==='admin';
     return `<tr>
-      <td><span style="font-weight:500;color:#0f172a;">${c.colaborador}</span></td>
-      <td style="max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${c.cliente}">${c.cliente}</td>
+      <td style="font-weight:500;">${c.colaborador}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="Clique para ver detalhamento"><span onclick="openModalParcelas('${c.id}')" style="color:#1d4ed8;font-weight:500;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;">${c.cliente}</span></td>
       <td><span style="background:#f1f5f9;color:#475569;font-size:11px;padding:3px 8px;border-radius:6px;">${c.causa}</span></td>
-      <td>${fmt(c.entrada||0)}</td>
-      <td>${bve}</td>
       <td>
         <button onclick="openModalParcelas('${c.id}')" style="background:#eff6ff;color:#1d4ed8;font-size:12px;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-weight:500;">
-          ${(c.parcelas||[]).length} parc.
+          ${parcRecebidas}/${c.numParcelas||'?'} parc. · ${fmt(totalHon)}
         </button>
       </td>
-      <td style="font-weight:600;color:#10b981;">${bonTotal}</td>
-      <td>${statusBadge(st)}</td>
+      <td style="font-weight:700;color:#10b981;">${fmt(bonTotal)}</td>
+      <td>${statusBadge(status)}</td>
+      <td style="font-size:12px;color:#64748b;">${fmtDate(previsaoPagto)||'—'}</td>
+      <td style="font-size:12px;color:${c.dataPagtoBon?'#10b981':'#94a3b8'};">${fmtDate(c.dataPagtoBon)||'—'}</td>
       <td>
         <div style="display:flex;gap:6px;">
-          ${canEdit ? `<button onclick="openModalContrato('${c.id}')" style="background:#f8fafc;color:#475569;padding:5px 10px;border-radius:6px;font-size:12px;border:1px solid #e2e8f0;cursor:pointer;">Editar</button>` : ''}
-          ${canDel ? `<button onclick="deleteContrato('${c.id}')" class="btn-danger" style="padding:5px 10px;font-size:12px;">Excluir</button>` : ''}
+          ${canEdit?`<button onclick="openModalContrato('${c.id}')" style="background:#f8fafc;color:#475569;padding:5px 10px;border-radius:6px;font-size:12px;border:1px solid #e2e8f0;cursor:pointer;">Editar</button>`:''}
+          ${canDel?`<button onclick="deleteContrato('${c.id}')" class="btn-danger" style="padding:5px 10px;font-size:12px;">Excluir</button>`:''}
         </div>
       </td>
     </tr>`;
   }).join('');
 };
 
-// ─── MODAL CONTRATO ───────────────────────────────────────────
+// ── MODAL CONTRATO ────────────────────────────────────────────
 window.openModalContrato = function(id) {
-  editingContratoId = id || null;
-  parcelaCount = 0;
-  document.getElementById('parcelasContainer').innerHTML = '';
-  document.getElementById('modalContratoTitle').textContent = id ? 'Editar Contrato' : 'Novo Contrato';
-  if (id) {
-    const c = allContratos.find(x=>x.id===id);
-    if (!c) return;
-    document.getElementById('cColaborador').value = c.colaborador||'';
-    document.getElementById('cCliente').value = c.cliente||'';
-    document.getElementById('cCausa').value = c.causa||'';
-    document.getElementById('cEntrada').value = c.entrada||0;
-    document.getElementById('cBVE').value = c.bvePct||0;
-    document.getElementById('cDataEntrada').value = c.dataEntrada||'';
-    document.getElementById('cHonorarios').value = c.honorariosFinais||0;
-    document.getElementById('cBF').value = c.bfPct||0;
-    document.getElementById('cObs').value = c.obs||'';
-    (c.parcelas||[]).forEach(p => addParcelaForm(p));
+  editingId=id||null; parcelaCount=0;
+  document.getElementById('parcelasContainer').innerHTML='';
+  document.getElementById('resumoBonificacao').style.display='none';
+  document.getElementById('modalContratoTitle').textContent=id?'Editar Contrato':'Novo Contrato';
+  if(id) {
+    const c=allContratos.find(x=>x.id===id); if(!c) return;
+    document.getElementById('cColab').value=c.colaborador||'';
+    document.getElementById('cCliente').value=c.cliente||'';
+    document.getElementById('cCausa').value=c.causa||'';
+    document.getElementById('cNumParcelas').value=c.numParcelas||'';
+    document.getElementById('cEntrada').value=c.entrada||0;
+    document.getElementById('cBVE').value=c.bvePct||0;
+    document.getElementById('cDataEntrada').value=c.dataEntrada||'';
+    document.getElementById('cHonorarios').value=c.honorariosFinais||0;
+    document.getElementById('cBF').value=c.bfPct||0;
+    document.getElementById('cDataPagtoBon').value=c.dataPagtoBon||'';
+    document.getElementById('cObs').value=c.obs||'';
+    (c.parcelas||[]).forEach(p=>addParcelaForm(p));
   } else {
-    ['cColaborador','cCliente','cCausa','cEntrada','cBVE','cDataEntrada','cHonorarios','cBF','cObs'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el.tagName === 'SELECT') el.value = '';
-      else el.value = '';
-    });
+    ['cColab','cCausa'].forEach(id=>document.getElementById(id).value='');
+    ['cCliente','cNumParcelas','cEntrada','cBVE','cDataEntrada','cHonorarios','cBF','cDataPagtoBon','cObs'].forEach(id=>document.getElementById(id).value='');
   }
-  document.getElementById('modalContrato').style.display = 'flex';
+  document.getElementById('modalContrato').style.display='flex';
 };
-window.closeModalContrato = function() { document.getElementById('modalContrato').style.display = 'none'; };
+window.closeModalContrato = function(){document.getElementById('modalContrato').style.display='none';};
 
 window.addParcelaForm = function(data) {
   parcelaCount++;
-  const i = parcelaCount;
-  const d = data || {};
-  const div = document.createElement('div');
-  div.className = 'parcela-row';
-  div.id = `parcela-row-${i}`;
-  div.innerHTML = `
+  const i=parcelaCount; const d=data||{};
+  const div=document.createElement('div');
+  div.className='parcela-row'; div.id=`pr-${i}`;
+  div.innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
       <span style="font-size:12px;font-weight:600;color:#475569;">${i}ª Parcela</span>
       <button type="button" onclick="removeParcelaForm(${i})" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:12px;">✕ remover</button>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;">
-      <div><label>Valor Cliente (R$)</label><input type="number" id="p${i}_valor" value="${d.valorCliente||''}" step="0.01" min="0" placeholder="0,00" /></div>
-      <div><label>Honorários (R$)</label><input type="number" id="p${i}_hon" value="${d.honorarios||''}" step="0.01" min="0" placeholder="0,00" /></div>
-      <div><label>Data Pgmt</label><input type="date" id="p${i}_data" value="${d.dataPgmt||''}" /></div>
-      <div><label>Bonificação (R$)</label><input type="number" id="p${i}_bon" value="${d.bonificacao||''}" step="0.01" min="0" placeholder="0,00" /></div>
-      <div><label>Status Bon.</label><select id="p${i}_status">
-        <option value="pendente" ${(d.statusBon||'pendente')==='pendente'?'selected':''}>Pendente</option>
-        <option value="pago" ${d.statusBon==='pago'?'selected':''}>Pago</option>
-      </select></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;">
+      <div><label>Valor recebido pelo cliente (R$)</label><input type="number" id="p${i}_vc" value="${d.valorCliente||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
+      <div><label>Honorários do escritório (R$)</label><input type="number" id="p${i}_hon" value="${d.honorarios||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
+      <div><label>Data recebimento</label><input type="date" id="p${i}_data" value="${d.dataPgmt||''}" onchange="recalcBon()" /></div>
+      <div><label>Bonificação desta parcela (R$)</label><input type="number" id="p${i}_bon" value="${d.bonificacao||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
     </div>`;
   document.getElementById('parcelasContainer').appendChild(div);
+  recalcBon();
 };
+window.removeParcelaForm = function(i){document.getElementById(`pr-${i}`)?.remove();recalcBon();};
 
-window.removeParcelaForm = function(i) {
-  document.getElementById(`parcela-row-${i}`)?.remove();
+window.recalcBon = function() {
+  let total=0;
+  document.querySelectorAll('[id^="pr-"]').forEach(row=>{
+    const idx=row.id.replace('pr-','');
+    total+=parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0;
+  });
+  const bve=(parseFloat(document.getElementById('cEntrada')?.value)||0)*(parseFloat(document.getElementById('cBVE')?.value)||0)/100;
+  const bf=(parseFloat(document.getElementById('cHonorarios')?.value)||0)*(parseFloat(document.getElementById('cBF')?.value)||0)/100;
+  const grand=total+bve+bf;
+  if(grand>0){
+    document.getElementById('resumoBonificacao').style.display='block';
+    document.getElementById('totalBonCalc').textContent=fmt(grand);
+  } else {
+    document.getElementById('resumoBonificacao').style.display='none';
+  }
 };
 
 window.saveContrato = async function() {
-  const colaborador = document.getElementById('cColaborador').value;
-  const cliente = document.getElementById('cCliente').value.trim();
-  const causa = document.getElementById('cCausa').value;
-  if (!colaborador||!cliente||!causa) { showToast('Preencha colaborador, cliente e causa.','#dc2626'); return; }
+  const colaborador=document.getElementById('cColab').value;
+  const cliente=document.getElementById('cCliente').value.trim();
+  const causa=document.getElementById('cCausa').value;
+  if(!colaborador||!cliente||!causa){showToast('Preencha colaboradora, cliente e causa.','#dc2626');return;}
 
-  const entrada = parseFloat(document.getElementById('cEntrada').value)||0;
-  const bvePct = parseFloat(document.getElementById('cBVE').value)||0;
-  const bveValor = entrada * bvePct / 100;
-  const dataEntrada = document.getElementById('cDataEntrada').value||'';
-  const honorariosFinais = parseFloat(document.getElementById('cHonorarios').value)||0;
-  const bfPct = parseFloat(document.getElementById('cBF').value)||0;
-  const obs = document.getElementById('cObs').value.trim();
+  const entrada=parseFloat(document.getElementById('cEntrada').value)||0;
+  const bvePct=parseFloat(document.getElementById('cBVE').value)||0;
+  const bveValor=entrada*bvePct/100;
+  const numParcelas=parseInt(document.getElementById('cNumParcelas').value)||0;
+  const honorariosFinais=parseFloat(document.getElementById('cHonorarios').value)||0;
+  const bfPct=parseFloat(document.getElementById('cBF').value)||0;
+  const dataPagtoBon=document.getElementById('cDataPagtoBon').value||'';
+  const dataEntrada=document.getElementById('cDataEntrada').value||'';
+  const obs=document.getElementById('cObs').value.trim();
 
-  // Coletar parcelas
-  const parcelas = [];
-  document.querySelectorAll('[id^="parcela-row-"]').forEach(row => {
-    const idx = row.id.replace('parcela-row-','');
+  const parcelas=[];
+  document.querySelectorAll('[id^="pr-"]').forEach(row=>{
+    const idx=row.id.replace('pr-','');
     parcelas.push({
-      valorCliente: parseFloat(document.getElementById(`p${idx}_valor`)?.value)||0,
-      honorarios: parseFloat(document.getElementById(`p${idx}_hon`)?.value)||0,
-      dataPgmt: document.getElementById(`p${idx}_data`)?.value||'',
-      bonificacao: parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0,
-      statusBon: document.getElementById(`p${idx}_status`)?.value||'pendente',
+      valorCliente:parseFloat(document.getElementById(`p${idx}_vc`)?.value)||0,
+      honorarios:parseFloat(document.getElementById(`p${idx}_hon`)?.value)||0,
+      dataPgmt:document.getElementById(`p${idx}_data`)?.value||'',
+      bonificacao:parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0,
     });
   });
 
-  const payload = {
-    colaborador, cliente, causa, entrada, bvePct, bveValor, dataEntrada,
-    honorariosFinais, bfPct, obs, parcelas,
-    updatedAt: serverTimestamp()
-  };
-
+  const payload={colaborador,cliente,causa,numParcelas,entrada,bvePct,bveValor,dataEntrada,honorariosFinais,bfPct,dataPagtoBon,obs,parcelas,updatedAt:serverTimestamp()};
   try {
-    if (editingContratoId) {
-      await updateDoc(doc(db,'contratos',editingContratoId), payload);
-      await logAudit('editou', `Contrato de ${cliente}`);
+    if(editingId){
+      await updateDoc(doc(db,'contratos',editingId),payload);
+      await logAudit('editou',`Contrato: ${cliente}`);
       showToast('Contrato atualizado!','#10b981');
     } else {
-      payload.createdAt = serverTimestamp();
-      payload.criadoPor = currentName;
-      await addDoc(collection(db,'contratos'), payload);
-      await logAudit('criou', `Novo contrato: ${cliente} / ${causa}`);
+      payload.createdAt=serverTimestamp(); payload.criadoPor=currentName;
+      await addDoc(collection(db,'contratos'),payload);
+      await logAudit('criou',`Novo contrato: ${cliente} / ${causa}`);
       showToast('Contrato criado!','#10b981');
     }
     closeModalContrato();
-  } catch(e) {
-    showToast('Erro ao salvar: '+e.message,'#dc2626');
-  }
+  } catch(e){showToast('Erro: '+e.message,'#dc2626');}
 };
 
 window.deleteContrato = async function(id) {
-  if (currentRole !== 'admin') { showToast('Sem permissão para excluir.','#dc2626'); return; }
-  if (!confirm('Excluir este contrato permanentemente?')) return;
-  const c = allContratos.find(x=>x.id===id);
+  if(currentRole!=='admin'){showToast('Sem permissão.','#dc2626');return;}
+  if(!confirm('Excluir permanentemente?')) return;
+  const c=allContratos.find(x=>x.id===id);
   await deleteDoc(doc(db,'contratos',id));
-  await logAudit('excluiu', `Contrato: ${c?.cliente||id}`);
-  showToast('Contrato excluído.','#475569');
+  await logAudit('excluiu',`Contrato: ${c?.cliente||id}`);
+  showToast('Excluído.','#475569');
 };
 
-// ─── MODAL PARCELAS ───────────────────────────────────────────
+// ── MODAL PARCELAS ────────────────────────────────────────────
 window.openModalParcelas = function(id) {
-  const c = allContratos.find(x=>x.id===id);
-  if (!c) return;
-  document.getElementById('modalParcelasTitle').textContent = c.cliente;
-  document.getElementById('modalParcelasSubtitle').textContent = `${c.colaborador} · ${c.causa}`;
-  const parc = c.parcelas||[];
-  let html = '';
-  if (!parc.length) {
-    html = '<p style="text-align:center;color:#94a3b8;padding:24px;">Nenhuma parcela cadastrada</p>';
-  } else {
-    html = `<div style="overflow-x:auto;"><table>
-      <thead><tr><th>#</th><th>Valor Cliente</th><th>Honorários</th><th>Data Pgmt</th><th>Bonificação</th><th>Status</th></tr></thead>
-      <tbody>${parc.map((p,i)=>`<tr>
-        <td style="font-weight:600;">${i+1}ª</td>
-        <td>${fmt(p.valorCliente)}</td>
-        <td>${fmt(p.honorarios)}</td>
-        <td>${fmtDate(p.dataPgmt)}</td>
-        <td style="font-weight:600;color:#10b981;">${fmt(p.bonificacao)}</td>
-        <td>${statusBadge(p.statusBon||'pendente')}</td>
-      </tr>`).join('')}</tbody>
-    </table></div>`;
-    const totalBon = parc.reduce((a,p)=>a+Number(p.bonificacao||0),0);
-    html += `<div style="margin-top:12px;padding:12px;background:#f8fafc;border-radius:8px;display:flex;justify-content:space-between;">
-      <span style="font-size:13px;color:#64748b;">Total Bonificação Parcelas</span>
-      <span style="font-size:14px;font-weight:700;color:#10b981;">${fmt(totalBon)}</span>
+  const c=allContratos.find(x=>x.id===id); if(!c) return;
+  const {bonTotal,status,previsaoPagto,bveValor,bfValor,bonParcelas,totalHon}=calcContrato(c);
+  document.getElementById('mpTitle').textContent=c.cliente;
+  document.getElementById('mpSubtitle').textContent=`${c.colaborador} · ${c.causa}`;
+  const parc=c.parcelas||[];
+  const parcRecebidas=parc.filter(p=>p.dataPgmt).length;
+  const numPrev=Number(c.numParcelas||0);
+
+  // Status visual
+  const stMap={paga:['#d1fae5','#065f46','✅ Bonificação Paga'],aguardando_30dias:['#dbeafe','#1e40af','🕐 Aguardando 30 dias'],vencida:['#fef2f2','#dc2626','⚠️ Vencida — Pagar já!'],aguardando_parcelas:['#f1f5f9','#475569','📋 Aguardando Parcelas']};
+  const [sBg,sTc,sLb]=stMap[status]||stMap['aguardando_parcelas'];
+
+  let html=`<div style="background:${sBg};border-radius:10px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+    <span style="font-size:14px;font-weight:700;color:${sTc};">${sLb}</span>
+    ${c.dataPagtoBon?`<span style="font-size:12px;color:${sTc};margin-left:auto;">Pago em ${fmtDate(c.dataPagtoBon)}</span>`:''}
+  </div>`;
+
+  // Cards financeiros
+  html+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:20px;">
+    <div style="background:#f8fafc;border-radius:10px;padding:14px;border:1px solid #e2e8f0;">
+      <p style="font-size:11px;color:#64748b;margin-bottom:4px;">BVE — Bônus Entrada</p>
+      <p style="font-size:18px;font-weight:700;color:#0f172a;">${fmt(bveValor)}</p>
+      <p style="font-size:10px;color:#94a3b8;margin-top:2px;">${c.bvePct||0}% de ${fmt(c.entrada||0)}</p>
+    </div>
+    <div style="background:#f8fafc;border-radius:10px;padding:14px;border:1px solid #e2e8f0;">
+      <p style="font-size:11px;color:#64748b;margin-bottom:4px;">BVP — Bônus Parcelas</p>
+      <p style="font-size:18px;font-weight:700;color:#0f172a;">${fmt(bonParcelas)}</p>
+      <p style="font-size:10px;color:#94a3b8;margin-top:2px;">${parcRecebidas} de ${numPrev||'?'} parcelas</p>
+    </div>
+    <div style="background:#f8fafc;border-radius:10px;padding:14px;border:1px solid #e2e8f0;">
+      <p style="font-size:11px;color:#64748b;margin-bottom:4px;">BF — Bônus Final</p>
+      <p style="font-size:18px;font-weight:700;color:#0f172a;">${fmt(bfValor)}</p>
+      <p style="font-size:10px;color:#94a3b8;margin-top:2px;">${c.bfPct||0}% de ${fmt(c.honorariosFinais||0)}</p>
+    </div>
+    <div style="background:#10b981;border-radius:10px;padding:14px;">
+      <p style="font-size:11px;color:rgba(255,255,255,0.8);margin-bottom:4px;">Total Bonificação</p>
+      <p style="font-size:20px;font-weight:700;color:white;">${fmt(bonTotal)}</p>
+      <p style="font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px;">a ser pago à colaboradora</p>
+    </div>
+  </div>`;
+
+  // Barra de progresso das parcelas
+  if(numPrev>0){
+    const pct=Math.round(parcRecebidas/numPrev*100);
+    html+=`<div style="margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+        <span style="font-size:12px;font-weight:500;color:#475569;">Honorários recebidos</span>
+        <span style="font-size:12px;font-weight:600;color:#10b981;">${parcRecebidas}/${numPrev} parcelas (${pct}%)</span>
+      </div>
+      <div style="background:#e2e8f0;border-radius:20px;height:8px;overflow:hidden;">
+        <div style="background:#10b981;height:100%;width:${pct}%;border-radius:20px;transition:width 0.5s;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;">
+        <span style="font-size:11px;color:#94a3b8;">Total recebido: ${fmt(totalHon)}</span>
+        <span style="font-size:11px;color:#94a3b8;">Previsto: ${fmt(c.honorariosFinais||0)}</span>
+      </div>
     </div>`;
   }
-  if (c.obs) html += `<div style="margin-top:12px;padding:12px;background:#fffbeb;border:1px solid #fef3c7;border-radius:8px;font-size:13px;color:#92400e;">${c.obs}</div>`;
-  document.getElementById('modalParcelasContent').innerHTML = html;
-  document.getElementById('modalParcelas').style.display = 'flex';
+
+  // Tabela de parcelas
+  html+=`<div style="margin-bottom:20px;">
+    <h4 style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:10px;">Detalhamento por Parcela</h4>`;
+  if(parc.length){
+    html+=`<div style="overflow-x:auto;"><table>
+      <thead><tr>
+        <th style="width:40px;">#</th>
+        <th>Valor recebido</th>
+        <th>Honorários</th>
+        <th>Data recebimento</th>
+        <th>Bonificação gerada</th>
+        <th>Situação</th>
+      </tr></thead>
+      <tbody>${parc.map((p,i)=>{
+        const recebida=!!p.dataPgmt;
+        return `<tr>
+          <td style="font-weight:700;color:#475569;">${i+1}ª</td>
+          <td>${fmt(p.valorCliente)}</td>
+          <td style="font-weight:500;">${fmt(p.honorarios)}</td>
+          <td style="font-weight:${recebida?'600':'400'};color:${recebida?'#10b981':'#94a3b8'};">
+            ${recebida?fmtDate(p.dataPgmt):'Aguardando'}
+          </td>
+          <td style="font-weight:600;color:${recebida?'#10b981':'#94a3b8'};">${fmt(p.bonificacao)}</td>
+          <td><span style="background:${recebida?'#d1fae5':'#f1f5f9'};color:${recebida?'#065f46':'#475569'};font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">${recebida?'Recebido':'Pendente'}</span></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+  } else {
+    html+=`<div style="text-align:center;padding:20px;color:#94a3b8;font-size:13px;">Nenhuma parcela registrada ainda.</div>`;
+  }
+  html+=`</div>`;
+
+  // Regra de pagamento
+  html+=`<div style="background:#fffbeb;border:1px solid #fef3c7;border-radius:10px;padding:16px;">
+    <p style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:8px;">📋 Regra de Pagamento da Bonificação</p>
+    <p style="font-size:13px;color:#78350f;">O pagamento total de <strong>${fmt(bonTotal)}</strong> será realizado <strong>30 dias após o recebimento da última parcela</strong> dos honorários.</p>
+    <div style="display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;">
+      <div>
+        <p style="font-size:11px;color:#92400e;">Última parcela recebida</p>
+        <p style="font-size:14px;font-weight:700;color:#78350f;">${calcContrato(c).ultimaParcela?fmtDate(calcContrato(c).ultimaParcela):'Aguardando'}</p>
+      </div>
+      <div>
+        <p style="font-size:11px;color:#92400e;">Previsão de pagamento (D+30)</p>
+        <p style="font-size:14px;font-weight:700;color:${status==='vencida'?'#dc2626':'#d97706'};">${previsaoPagto?fmtDate(previsaoPagto):'—'}</p>
+      </div>
+      ${c.dataPagtoBon?`<div><p style="font-size:11px;color:#166534;">✅ Pago efetivamente em</p><p style="font-size:14px;font-weight:700;color:#10b981;">${fmtDate(c.dataPagtoBon)}</p></div>`:''}
+    </div>
+  </div>`;
+
+  if(c.obs) html+=`<div style="margin-top:12px;background:#f8fafc;border-radius:8px;padding:12px;font-size:13px;color:#475569;"><strong>Obs:</strong> ${c.obs}</div>`;
+
+  document.getElementById('mpContent').innerHTML=html;
+  document.getElementById('modalParcelas').style.display='flex';
 };
-window.closeModalParcelas = function() { document.getElementById('modalParcelas').style.display = 'none'; };
+window.closeModalParcelas=function(){document.getElementById('modalParcelas').style.display='none';};
 
-// ─── RELATÓRIOS ───────────────────────────────────────────────
+// ── RELATÓRIOS ────────────────────────────────────────────────
 window.renderRelatorios = function() {
-  let data = [...allContratos];
-  const fc = document.getElementById('relFiltroColaborador')?.value;
-  const fca = document.getElementById('relFiltroCausa')?.value;
-  const de = document.getElementById('relDe')?.value;
-  const ate = document.getElementById('relAte')?.value;
-  if (fc) data = data.filter(c=>c.colaborador===fc);
-  if (fca) data = data.filter(c=>c.causa===fca);
-  if (de) data = data.filter(c=>c.dataEntrada>=de);
-  if (ate) data = data.filter(c=>c.dataEntrada<=ate);
+  let data=[...allContratos];
+  const fc=document.getElementById('relColab')?.value;
+  const fca=document.getElementById('relCausa')?.value;
+  const de=document.getElementById('relDe')?.value;
+  const ate=document.getElementById('relAte')?.value;
+  if(fc) data=data.filter(c=>c.colaborador===fc);
+  if(fca) data=data.filter(c=>c.causa===fca);
+  if(de) data=data.filter(c=>c.dataEntrada>=de);
+  if(ate) data=data.filter(c=>c.dataEntrada<=ate);
 
-  // Tabela
-  const tbody = document.getElementById('relatorioTableBody');
-  let totalGeral = 0;
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum dado para o filtro selecionado</td></tr>'; }
-  else tbody.innerHTML = data.map(c=>{
-    const bonTotal = calcBonTotal(c);
-    totalGeral += bonTotal;
-    const bonParc = (c.parcelas||[]).reduce((a,p)=>a+Number(p.bonificacao||0),0);
+  let totalGeral=0;
+  const tbody=document.getElementById('relatorioTableBody');
+  tbody.innerHTML=data.length ? data.map(c=>{
+    const {bonTotal,status,previsaoPagto,totalHon}=calcContrato(c);
+    totalGeral+=bonTotal;
+    const parcRec=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
     return `<tr>
       <td>${c.colaborador}</td><td>${c.cliente}</td><td>${c.causa}</td>
-      <td>${fmt(c.entrada||0)}</td>
-      <td>${fmt(c.bveValor||0)}</td>
-      <td>${(c.parcelas||[]).length}</td>
-      <td>${fmt(bonParc)}</td>
+      <td style="text-align:center;">${parcRec}/${c.numParcelas||'?'}</td>
+      <td>${fmt(totalHon)}</td>
       <td style="font-weight:700;color:#10b981;">${fmt(bonTotal)}</td>
-      <td>${statusBadge(getStatusContrato(c))}</td>
+      <td>${statusBadge(status)}</td>
+      <td style="font-size:12px;">${fmtDate(previsaoPagto)||'—'}</td>
+      <td style="font-size:12px;color:${c.dataPagtoBon?'#10b981':'#94a3b8'};">${fmtDate(c.dataPagtoBon)||'—'}</td>
     </tr>`;
-  }).join('');
-  document.getElementById('relTotal').textContent = `Total: ${fmt(totalGeral)}`;
+  }).join('') : '<tr><td colspan="9" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum dado</td></tr>';
+  document.getElementById('relTotal').textContent=`Total: ${fmt(totalGeral)}`;
 
   // Chart status
-  const pago = data.reduce((a,c)=>{
-    return a + (c.parcelas||[]).filter(p=>p.statusBon==='pago').reduce((s,p)=>s+Number(p.bonificacao||0),0);
-  },0);
-  const pendente = data.reduce((a,c)=>{
-    return a + (c.parcelas||[]).filter(p=>p.statusBon!=='pago').reduce((s,p)=>s+Number(p.bonificacao||0),0);
-  },0);
-  renderChart('relChartStatus','doughnut',['Pago','Pendente'],[[pago,pendente]],
-    ['Bonificações'],['#10b981','#fbbf24'],true);
+  const counts={paga:0,aguardando_30dias:0,vencida:0,aguardando_parcelas:0};
+  data.forEach(c=>{const {status}=calcContrato(c);counts[status]=(counts[status]||0)+1;});
+  renderChart('relChartStatus','doughnut',
+    ['Bon. Paga','Aguard. 30 dias','Vencida','Aguard. Parcelas'],
+    [[counts.paga,counts.aguardando_30dias,counts.vencida,counts.aguardando_parcelas]],
+    ['Status'],['#10b981','#3b82f6','#dc2626','#94a3b8'],true);
 
-  // Chart mensal
-  const byMonth = {};
-  data.forEach(c => {
-    (c.parcelas||[]).filter(p=>p.statusBon==='pago'&&p.dataPgmt).forEach(p => {
-      const m = p.dataPgmt.substring(0,7);
-      byMonth[m] = (byMonth[m]||0) + Number(p.bonificacao||0);
+  // Chart mensal honorários
+  const byMonth={};
+  data.forEach(c=>{
+    (c.parcelas||[]).filter(p=>p.dataPgmt).forEach(p=>{
+      const m=p.dataPgmt.substring(0,7);
+      byMonth[m]=(byMonth[m]||0)+Number(p.honorarios||0);
     });
   });
-  const months = Object.keys(byMonth).sort();
-  renderChart('relChartMensal','bar', months.map(m=>{
-    const [y,mo]=m.split('-'); return `${mo}/${y}`;
-  }), [months.map(m=>byMonth[m])], ['Bonificações Pagas (R$)'], ['rgba(16,185,129,0.8)']);
+  const months=Object.keys(byMonth).sort();
+  renderChart('relChartMensal','bar',
+    months.map(m=>{const[y,mo]=m.split('-');return`${mo}/${y}`;}),
+    [months.map(m=>byMonth[m])],['Honorários (R$)'],['rgba(16,185,129,0.8)']);
 };
 
-// ─── Chart helper ─────────────────────────────────────────────
-function renderChart(canvasId, type, labels, datasets, dsLabels, colors, multiDs) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  if (charts[canvasId]) { charts[canvasId].destroy(); }
-  const ds = datasets.map((data,i) => ({
-    label: dsLabels[i]||'',
-    data,
-    backgroundColor: Array.isArray(colors[i]) ? colors[i] : (type==='doughnut'?colors:colors[i]||colors[0]),
-    borderRadius: type==='bar'?6:0,
-    borderWidth: type==='doughnut'?0:0,
-  }));
-  charts[canvasId] = new Chart(canvas, {
+// ── Chart helper ──────────────────────────────────────────────
+function renderChart(id,type,labels,datasets,dsLabels,colors) {
+  const canvas=document.getElementById(id); if(!canvas) return;
+  if(charts[id]) charts[id].destroy();
+  charts[id]=new Chart(canvas,{
     type,
-    data: { labels, datasets: ds },
-    options: {
-      responsive:true, maintainAspectRatio:true,
-      plugins: { legend: { display: type==='doughnut', position:'bottom', labels:{font:{size:11},padding:12} } },
-      scales: type!=='doughnut' ? { y:{ beginAtZero:true, ticks:{callback:v=>'R$'+v.toLocaleString('pt-BR')}, grid:{color:'#f1f5f9'} }, x:{grid:{display:false}} } : {}
-    }
+    data:{labels,datasets:datasets.map((data,i)=>({label:dsLabels[i]||'',data,backgroundColor:type==='doughnut'?colors:(colors[i]||colors[0]),borderRadius:type==='bar'?6:0,borderWidth:0}))},
+    options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:type==='doughnut',position:'bottom',labels:{font:{size:11},padding:12}}},
+      scales:type!=='doughnut'?{y:{beginAtZero:true,ticks:{callback:v=>'R$'+Number(v).toLocaleString('pt-BR')},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}:{}}
   });
 }
 
-// ─── USUÁRIOS ─────────────────────────────────────────────────
+// ── USUÁRIOS ──────────────────────────────────────────────────
 window.renderUsuarios = function() {
-  const tbody = document.getElementById('usuariosTableBody');
-  if (!tbody) return;
-  if (!allUsuarios.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum usuário cadastrado</td></tr>'; return; }
-  tbody.innerHTML = allUsuarios.map(u=>`<tr>
+  const tbody=document.getElementById('usuariosTableBody'); if(!tbody) return;
+  tbody.innerHTML=allUsuarios.length ? allUsuarios.map(u=>`<tr>
     <td style="font-weight:500;">${u.nome}</td>
     <td style="color:#64748b;">${u.email||''}</td>
-    <td><span style="background:${u.role==='admin'?'#ede9fe':'#f0fdf4'};color:${u.role==='admin'?'#7c3aed':'#166534'};font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;">${u.role==='admin'?'Admin':'Colaborador'}</span></td>
-    <td><span style="font-size:12px;color:#64748b;">Ativo</span></td>
-    <td style="color:#94a3b8;font-size:12px;">${fmtDateTime(u.lastLogin)||'—'}</td>
-    <td>${u.id!==currentUser?.uid ? `<button onclick="deleteUsuario('${u.id}')" class="btn-danger" style="font-size:12px;padding:4px 10px;">Remover</button>` : '<span style="font-size:12px;color:#94a3b8;">Você</span>'}</td>
-  </tr>`).join('');
+    <td><span style="background:${u.role==='admin'?'#ede9fe':'#f0fdf4'};color:${u.role==='admin'?'#7c3aed':'#166534'};font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;">${u.role==='admin'?'Admin':'Colaboradora'}</span></td>
+    <td style="color:#94a3b8;font-size:12px;">${fmtDT(u.lastLogin)||'—'}</td>
+    <td>${u.id!==currentUser?.uid?`<button onclick="deleteUsuario('${u.id}')" class="btn-danger" style="font-size:12px;padding:4px 10px;">Remover</button>`:'<span style="font-size:12px;color:#94a3b8;">Você</span>'}</td>
+  </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum usuário</td></tr>';
 };
-
-window.openModalUsuario = function() { document.getElementById('modalUsuario').style.display='flex'; };
-window.closeModalUsuario = function() { document.getElementById('modalUsuario').style.display='none'; };
-
+window.openModalUsuario=function(){document.getElementById('modalUsuario').style.display='flex';};
+window.closeModalUsuario=function(){document.getElementById('modalUsuario').style.display='none';};
 window.saveUsuario = async function() {
-  const nome = document.getElementById('uNome').value.trim();
-  const email = document.getElementById('uEmail').value.trim();
-  const senha = document.getElementById('uSenha').value;
-  const role = document.getElementById('uPerfil').value;
-  if (!nome||!email||!senha) { showToast('Preencha todos os campos.','#dc2626'); return; }
-  if (senha.length < 6) { showToast('A senha precisa ter mínimo 6 caracteres.','#dc2626'); return; }
+  const nome=document.getElementById('uNome').value.trim();
+  const email=document.getElementById('uEmail').value.trim();
+  const senha=document.getElementById('uSenha').value;
+  const role=document.getElementById('uPerfil').value;
+  if(!nome||!email||!senha){showToast('Preencha todos os campos.','#dc2626');return;}
+  if(senha.length<6){showToast('Senha mínimo 6 caracteres.','#dc2626');return;}
   try {
-    // Cria o usuário no Firebase Auth
-    const cred = await createUserWithEmailAndPassword(auth, email, senha);
-    // Salva perfil no Firestore
-    await setDoc(doc(db,'usuarios',cred.user.uid), {
-      nome, email, role,
-      createdAt: serverTimestamp(),
-      criadoPor: currentName
-    });
-    await logAudit('criou', `Usuário: ${nome} (${role})`);
-    // Re-login do admin (createUserWithEmailAndPassword faz auto-login no novo user)
-    // Solução: salvar credenciais do admin antes e re-autenticar
-    showToast(`Usuário ${nome} criado!`, '#10b981');
+    const cred=await createUserWithEmailAndPassword(auth,email,senha);
+    await setDoc(doc(db,'usuarios',cred.user.uid),{nome,email,role,createdAt:serverTimestamp(),criadoPor:currentName});
+    await logAudit('criou',`Usuário: ${nome} (${role})`);
+    showToast(`Usuário ${nome} criado!`,'#10b981');
     closeModalUsuario();
     ['uNome','uEmail','uSenha'].forEach(id=>document.getElementById(id).value='');
-  } catch(e) {
-    showToast('Erro: '+e.message,'#dc2626');
-  }
+  } catch(e){showToast('Erro: '+e.message,'#dc2626');}
 };
-
 window.deleteUsuario = async function(id) {
-  if (!confirm('Remover este usuário do sistema?')) return;
-  const u = allUsuarios.find(x=>x.id===id);
+  if(!confirm('Remover este usuário?')) return;
+  const u=allUsuarios.find(x=>x.id===id);
   await deleteDoc(doc(db,'usuarios',id));
   await logAudit('excluiu',`Usuário: ${u?.nome||id}`);
   showToast('Usuário removido.','#475569');
 };
 
-// ─── AUDITORIA ────────────────────────────────────────────────
-function populateAuditUserSelect() {
-  const el = document.getElementById('auditFiltroUser');
-  if (!el) return;
-  const names = [...new Set(allUsuarios.map(u=>u.nome))];
-  const cur = el.value;
-  el.innerHTML = '<option value="">Todos</option>';
-  names.forEach(n => { const o=document.createElement('option'); o.value=n; o.textContent=n; el.appendChild(o); });
-  el.value = cur;
-}
-
+// ── AUDITORIA ─────────────────────────────────────────────────
 window.renderAuditoria = function() {
-  const tbody = document.getElementById('auditoriaTableBody');
-  if (!tbody) return;
-  let data = [...allAuditoria];
-  const fu = document.getElementById('auditFiltroUser')?.value;
-  const fa = document.getElementById('auditFiltroAcao')?.value;
-  const de = document.getElementById('auditDe')?.value;
-  const ate = document.getElementById('auditAte')?.value;
-  if (fu) data = data.filter(r=>r.userName===fu);
-  if (fa) data = data.filter(r=>r.acao===fa);
-  if (de) data = data.filter(r => { const d=r.timestamp?.toDate?.(); return d&&d>=new Date(de); });
-  if (ate) data = data.filter(r => { const d=r.timestamp?.toDate?.(); return d&&d<=new Date(ate+' 23:59:59'); });
-  if (!data.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum registro encontrado</td></tr>'; return; }
-  const acaoCor = {login:'#d1fae5/065f46',logout:'#f1f5f9/475569',criou:'#dbeafe/1e40af',editou:'#fef3c7/92400e',excluiu:'#fef2f2/dc2626'};
-  tbody.innerHTML = data.slice(0,200).map(r=>{
-    const [bg,tc] = (acaoCor[r.acao]||'#f8fafc/475569').split('/');
+  const tbody=document.getElementById('auditoriaTableBody'); if(!tbody) return;
+  let data=[...allAuditoria];
+  const fu=document.getElementById('auditUser')?.value;
+  const fa=document.getElementById('auditAcao')?.value;
+  const de=document.getElementById('auditDe')?.value;
+  const ate=document.getElementById('auditAte')?.value;
+  if(fu) data=data.filter(r=>r.userName===fu);
+  if(fa) data=data.filter(r=>r.acao===fa);
+  if(de) data=data.filter(r=>{const d=r.timestamp?.toDate?.();return d&&d>=new Date(de);});
+  if(ate) data=data.filter(r=>{const d=r.timestamp?.toDate?.();return d&&d<=new Date(ate+' 23:59:59');});
+  const cores={login:'#d1fae5/#065f46',logout:'#f1f5f9/#475569',criou:'#dbeafe/#1e40af',editou:'#fef3c7/#92400e',excluiu:'#fef2f2/#dc2626'};
+  tbody.innerHTML=data.slice(0,200).map(r=>{
+    const[bg,tc]=(cores[r.acao]||'#f8fafc/#475569').split('/');
     return `<tr>
-      <td style="font-size:12px;color:#64748b;white-space:nowrap;">${fmtDateTime(r.timestamp)}</td>
+      <td style="font-size:12px;color:#64748b;white-space:nowrap;">${fmtDT(r.timestamp)}</td>
       <td style="font-weight:500;">${r.userName||'—'}</td>
       <td><span style="background:${r.userRole==='admin'?'#ede9fe':'#f0fdf4'};color:${r.userRole==='admin'?'#7c3aed':'#166534'};font-size:11px;padding:2px 8px;border-radius:20px;">${r.userRole||'—'}</span></td>
-      <td><span style="background:${bg};color:#${tc};font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;">${r.acao}</span></td>
-      <td style="font-size:12px;color:#475569;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.detalhe||'—'}</td>
-      <td style="font-size:11px;color:#94a3b8;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.userAgent||''}">${(r.userAgent||'').substring(0,40)}...</td>
+      <td><span style="background:${bg};color:${tc};font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;">${r.acao}</span></td>
+      <td style="font-size:12px;color:#475569;">${r.detalhe||'—'}</td>
     </tr>`;
-  }).join('');
+  }).join('')||'<tr><td colspan="5" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum registro</td></tr>';
 };
 
-// ─── EXPORT PDF ───────────────────────────────────────────────
-window.exportRelPDF = function() {
-  const { jsPDF } = window.jspdf;
-  const doc2 = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
-  doc2.setFontSize(14);
-  doc2.setTextColor(15,23,42);
-  doc2.text('BER — Relatório de Bonificações', 14, 16);
-  doc2.setFontSize(9);
-  doc2.setTextColor(100,116,139);
-  doc2.text(`Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`, 14, 22);
-  const rows = [];
-  allContratos.forEach(c => {
-    rows.push([c.colaborador,c.cliente,c.causa,fmt(c.entrada||0),fmt(c.bveValor||0),(c.parcelas||[]).length,fmt(calcBonTotal(c)),getStatusContrato(c).toUpperCase()]);
+// ── PDF ───────────────────────────────────────────────────────
+window.exportPDF = function() {
+  const{jsPDF}=window.jspdf;
+  const doc2=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  doc2.setFontSize(14);doc2.setTextColor(15,23,42);
+  doc2.text('BONEX — Relatório de Bonificações',14,16);
+  doc2.setFontSize(9);doc2.setTextColor(100,116,139);
+  doc2.text(`Gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`,14,22);
+  const rows=allContratos.map(c=>{
+    const{bonTotal,status,previsaoPagto,totalHon}=calcContrato(c);
+    const parcRec=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
+    const st={paga:'Bon. Paga',aguardando_30dias:'Aguard. 30 dias',vencida:'VENCIDA',aguardando_parcelas:'Aguard. Parcelas'};
+    return[c.colaborador,c.cliente,c.causa,`${parcRec}/${c.numParcelas||'?'}`,fmt(totalHon),fmt(bonTotal),st[status]||status,fmtDate(previsaoPagto)||'—',fmtDate(c.dataPagtoBon)||'—'];
   });
   doc2.autoTable({
-    head:[['Colaborador','Cliente','Causa','Entrada','BVE','Parcelas','Total Bon.','Status']],
-    body: rows,
-    startY: 28,
-    styles: { fontSize:8, cellPadding:3 },
-    headStyles: { fillColor:[15,23,42], textColor:255, fontStyle:'bold' },
-    alternateRowStyles: { fillColor:[248,250,252] }
+    head:[['Colaboradora','Cliente','Causa','Parcelas','Honor. Receb.','Bon. Total','Status','Previsão Pagto','Pagto Efetivo']],
+    body:rows,startY:28,
+    styles:{fontSize:7,cellPadding:3},
+    headStyles:{fillColor:[15,23,42],textColor:255,fontStyle:'bold'},
+    alternateRowStyles:{fillColor:[248,250,252]}
   });
-  doc2.save(`BER-Relatorio-${new Date().toISOString().substring(0,10)}.pdf`);
+  doc2.save(`BONEX-${new Date().toISOString().substring(0,10)}.pdf`);
 };
 
-// ─── Window events ────────────────────────────────────────────
-window.toggleSenhaLogin = function() {
-  const input = document.getElementById('loginPassword');
-  const eyeOn  = document.getElementById('eyeIcon');
-  const eyeOff = document.getElementById('eyeOffIcon');
-  if (input.type === 'password') {
-    input.type = 'text';
-    eyeOn.style.display  = 'none';
-    eyeOff.style.display = 'block';
-  } else {
-    input.type = 'password';
-    eyeOn.style.display  = 'block';
-    eyeOff.style.display = 'none';
-  }
-};
-
-window.esqueceuSenha = async function() {
-  const email = document.getElementById('loginEmail').value.trim();
-  if (!email) {
-    showToast('Digite seu e-mail acima antes de continuar.', '#dc2626');
-    document.getElementById('loginEmail').focus();
-    return;
-  }
-  try {
-    const { sendPasswordResetEmail } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
-    await sendPasswordResetEmail(auth, email);
-    showToast('E-mail de recuperação enviado! Verifique sua caixa de entrada.', '#10b981');
-  } catch(e) {
-    showToast('Erro ao enviar e-mail. Verifique o endereço digitado.', '#dc2626');
-  }
-};
-
-window.addEventListener('beforeunload', async () => {
-  if (currentUser) await setOffline(currentUser.uid);
-});
-
-// Enter no login
-document.getElementById('loginPassword').addEventListener('keydown', e => {
-  if (e.key === 'Enter') window.doLogin();
-});
-
+// ── Eventos ───────────────────────────────────────────────────
+window.addEventListener('beforeunload',async()=>{if(currentUser)await setOffline(currentUser.uid);});
+document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
+document.getElementById('cEntrada').addEventListener?.('input',()=>recalcBon?.());
+document.getElementById('cBVE').addEventListener?.('input',()=>recalcBon?.());
+document.getElementById('cHonorarios').addEventListener?.('input',()=>recalcBon?.());
+document.getElementById('cBF').addEventListener?.('input',()=>recalcBon?.());
 </script>
 </body>
 </html>
