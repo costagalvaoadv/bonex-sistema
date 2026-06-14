@@ -443,9 +443,9 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div><label>Valor de Entrada (R$) — total pago pela cliente</label>
           <input type="number" id="cEntrada" placeholder="0,00" step="0.01" min="0" oninput="recalcBon()" /></div>
-        <div><label>% BVE — Percentual de bônus sobre a entrada (ex: 5)</label>
+        <div><label>% BVE — Percentual de bônus sobre a entrada (ex: 5) <span id="aviso_bve" style="color:#dc2626;font-size:10px;font-weight:600;"></span></label>
           <div style="position:relative;">
-            <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon()" style="padding-right:32px;" />
+            <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon();verificarPct('cBVE','aviso_bve')" style="padding-right:32px;" />
             <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
           </div>
         </div>
@@ -474,9 +474,9 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div><label>Honorários Totais Previstos (R$)</label>
           <input type="number" id="cHonorarios" placeholder="0,00" step="0.01" min="0" oninput="recalcBon()" /></div>
-        <div><label>% BF — Percentual de bônus sobre honorários finais (ex: 5)</label>
+        <div><label>% BF — Percentual de bônus sobre honorários finais (ex: 5) <span id="aviso_bf" style="color:#dc2626;font-size:10px;font-weight:600;"></span></label>
           <div style="position:relative;">
-            <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon()" style="padding-right:32px;" />
+            <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon();verificarPct('cBF','aviso_bf')" style="padding-right:32px;" />
             <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
           </div>
         </div>
@@ -624,11 +624,15 @@ function calcContrato(c) {
   const parc = c.parcelas||[];
   const totalHon = parc.reduce((a,p)=>a+Number(p.honorarios||0),0);
   const bonParcelas = parc.reduce((a,p)=>a+Number(p.bonificacao||0),0);
-  const bveValor = Number(c.bveValor||0);
-  // Se bfPct > 100, foi importado como valor em R$ (não como %) — usar diretamente
+  // BVE: se bvePct > 100, foi importado como valor R$ (ex: 100 = R$100, não 100%)
+  const bvePctNum = Number(c.bvePct||0);
+  const bveValor = bvePctNum > 100
+    ? Number(c.bveValor||0)   // usar bveValor calculado na importação
+    : Number(c.entrada||0) * bvePctNum / 100;
+  // BF: se bfPct > 100, foi importado como valor R$ (ex: 250 = R$250, não 250%)
   const bfPctNum = Number(c.bfPct||0);
   const bfValor  = bfPctNum > 100
-    ? bfPctNum  // foi importado como valor monetário (ex: R$250)
+    ? bfPctNum   // usar diretamente como valor monetário
     : Number(c.honorariosFinais||0)*bfPctNum/100;
   const bonTotal = bveValor + bonParcelas + bfValor;
 
@@ -1036,9 +1040,11 @@ window.openModalContrato = function(id) {
   document.getElementById('modalContratoTitle').textContent=id?'Editar Contrato':'Novo Contrato';
   if(id) {
     const c=allContratos.find(x=>x.id===id); if(!c) return;
-    document.getElementById('cColab').value=c.colaborador||'';
-    // Aguardar populate para garantir que o select tem as opções
-    setTimeout(()=>{document.getElementById('cColab').value=c.colaborador||'';},50);
+    // Garantir que o select de colaboradora tem as opções antes de setar
+    populateColabSelects();
+    setTimeout(()=>{
+      document.getElementById('cColab').value=c.colaborador||'';
+    },80);
     document.getElementById('cCliente').value=c.cliente||'';
     document.getElementById('cCausa').value=c.causa||'';
     document.getElementById('cNumParcelas').value=c.numParcelas||'';
@@ -1100,17 +1106,33 @@ window.addParcelaForm = function(data) {
 
 window.calcParcelaBon = function(i) {
   const hon = parseFloat(document.getElementById(`p${i}_hon`)?.value)||0;
-  const pct = parseFloat(document.getElementById('cBVP')?.value)||0;
+  // Usar %BVP; se zero, usar %BVE como fallback (mesmo percentual)
+  let pct = parseFloat(document.getElementById('cBVP')?.value)||0;
+  if(!pct) pct = parseFloat(document.getElementById('cBVE')?.value)||0;
+  // Se pct > 100, provavelmente é valor monetário importado — não usar para cálculo
+  if(pct > 100) pct = 0;
   const bonCalc = hon * pct / 100;
   const bonInput = document.getElementById(`p${i}_bon`);
   const bonLabel = document.getElementById(`p${i}_boncalc`);
-  if(bonCalc > 0 && bonInput) {
-    bonInput.value = bonCalc.toFixed(2);
-    if(bonLabel) bonLabel.textContent = `${pct}% de ${fmt(hon)} = ${fmt(bonCalc)}`;
+  if(bonInput) {
+    if(bonCalc > 0) {
+      bonInput.value = bonCalc.toFixed(2);
+      if(bonLabel) bonLabel.textContent = `${pct}% de ${fmt(hon)} = ${fmt(bonCalc)}`;
+    } else if(!bonInput.value) {
+      if(bonLabel) bonLabel.textContent = pct===0 ? 'Informe o %BVP na seção acima' : '';
+    }
   }
   recalcBon();
 };
 window.removeParcelaForm = function(i){document.getElementById(`pr-${i}`)?.remove();recalcBon();};
+
+window.verificarPct = function(inputId, avisoId) {
+  const val = parseFloat(document.getElementById(inputId)?.value)||0;
+  const aviso = document.getElementById(avisoId);
+  if(!aviso) return;
+  if(val > 100) aviso.textContent = '⚠ Valor acima de 100% — verifique se é % ou R$';
+  else aviso.textContent = '';
+};
 
 window.recalcBon = function() {
   let bvpTotal=0;
@@ -1635,10 +1657,18 @@ window.exportPDF = function() {
 // ── Eventos ───────────────────────────────────────────────────
 window.addEventListener('beforeunload',async()=>{if(currentUser)await setOffline(currentUser.uid);});
 document.getElementById('loginPassword').addEventListener('keydown',e=>{if(e.key==='Enter')window.doLogin();});
-document.getElementById('cEntrada').addEventListener?.('input',()=>recalcBon?.());
-document.getElementById('cBVE').addEventListener?.('input',()=>recalcBon?.());
-document.getElementById('cHonorarios').addEventListener?.('input',()=>recalcBon?.());
-document.getElementById('cBF').addEventListener?.('input',()=>recalcBon?.());
+['cEntrada','cBVE','cHonorarios','cBF','cBVP'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input',()=>{
+    recalcBon();
+    // Recalcular todas as parcelas quando % muda
+    if(id==='cBVP'||id==='cBVE'){
+      document.querySelectorAll('[id^="pr-"]').forEach(row=>{
+        const idx=row.id.replace('pr-','');
+        calcParcelaBon(parseInt(idx));
+      });
+    }
+  });
+});
 </script>
 </body>
 </html>
