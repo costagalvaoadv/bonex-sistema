@@ -291,17 +291,35 @@
         </div>
       </div>
 
-      <div class="card no-print" style="margin-bottom:16px;">
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
-          <div><label>Colaboradora</label>
-            <select id="relColab" onchange="renderRelatorios()"><option value="">Todas</option></select></div>
-          <div><label>Causa</label>
+      <div class="card no-print" style="margin-bottom:16px;padding:16px 20px;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+          <div style="flex:1;min-width:140px;">
+            <label>Colaboradora</label>
+            <select id="relColab" onchange="renderRelatorios()"><option value="">Todas</option></select>
+          </div>
+          <div style="flex:1;min-width:140px;">
+            <label>Causa</label>
             <select id="relCausa" onchange="renderRelatorios()">
               <option value="">Todas</option><option>Salário Maternidade</option>
               <option>BPC LOAS</option><option>Auxílio Doença</option><option>Outros</option>
-            </select></div>
-          <div><label>De</label><input type="date" id="relDe" onchange="renderRelatorios()" /></div>
-          <div><label>Até</label><input type="date" id="relAte" onchange="renderRelatorios()" /></div>
+            </select>
+          </div>
+          <div style="flex:2;min-width:280px;">
+            <label>Período</label>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button onclick="setRelPeriodo('todos')" id="rp-todos" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #10b981;background:#10b981;color:white;white-space:nowrap;">Todos</button>
+              <button onclick="setRelPeriodo('mes_atual')" id="rp-mes_atual" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;white-space:nowrap;">Mês atual</button>
+              <button onclick="setRelPeriodo('mes_anterior')" id="rp-mes_anterior" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;white-space:nowrap;">Mês ant.</button>
+              <button onclick="setRelPeriodo('3meses')" id="rp-3meses" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;white-space:nowrap;">Últ. 3 meses</button>
+              <button onclick="setRelPeriodo('6meses')" id="rp-6meses" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;white-space:nowrap;">Últ. 6 meses</button>
+              <button onclick="setRelPeriodo('personalizado')" id="rp-personalizado" style="padding:6px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;white-space:nowrap;">Personalizado</button>
+            </div>
+            <div id="relPeriodoCustom" style="display:none;margin-top:8px;display:none;gap:8px;align-items:center;">
+              <input type="date" id="relDe" onchange="renderRelatorios()" style="flex:1;font-size:12px;padding:6px 10px;" />
+              <span style="color:#94a3b8;font-size:12px;">até</span>
+              <input type="date" id="relAte" onchange="renderRelatorios()" style="flex:1;font-size:12px;padding:6px 10px;" />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -400,44 +418,90 @@
       </button>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div><label>Colaboradora *</label>
-        <select id="cColab"><option value="">Selecione...</option></select></div>
-      <div><label>Cliente *</label>
-        <input type="text" id="cCliente" placeholder="Nome completo" /></div>
-      <div><label>Causa *</label>
-        <select id="cCausa">
-          <option value="">Selecione...</option>
-          <option>Salário Maternidade</option><option>BPC LOAS</option>
-          <option>Auxílio Doença</option><option>Outros</option>
-        </select></div>
-      <div><label>Nº de Parcelas Previstas</label>
-        <input type="number" id="cNumParcelas" placeholder="Ex: 4" min="1" max="12" /></div>
-      <div><label>Valor de Entrada (R$)</label>
-        <input type="number" id="cEntrada" placeholder="0,00" step="0.01" min="0" /></div>
-      <div><label>% BVE (Bônus sobre Entrada)</label>
-        <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" /></div>
-      <div><label>Data Pgmt Entrada</label>
-        <input type="date" id="cDataEntrada" /></div>
-      <div><label>Honorários Totais Previstos (R$)</label>
-        <input type="number" id="cHonorarios" placeholder="0,00" step="0.01" min="0" /></div>
-      <div><label>% BF (Bônus Final sobre Honorários)</label>
-        <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" /></div>
-      <div><label>Data Efetiva Pagto Bonificação</label>
-        <input type="date" id="cDataPagtoBon" /></div>
+    <!-- Seção 1: Dados básicos -->
+    <div style="background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #e2e8f0;">
+      <p style="font-size:11px;font-weight:700;color:#475569;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">📋 Dados do Contrato</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div><label>Colaboradora que indicou *</label>
+          <select id="cColab"><option value="">Selecione...</option></select></div>
+        <div><label>Nome da Cliente *</label>
+          <input type="text" id="cCliente" placeholder="Nome completo" /></div>
+        <div><label>Causa *</label>
+          <select id="cCausa">
+            <option value="">Selecione...</option>
+            <option>Salário Maternidade</option><option>BPC LOAS</option>
+            <option>Auxílio Doença</option><option>Outros</option>
+          </select></div>
+        <div><label>Nº de Parcelas de Honorários Previstas</label>
+          <input type="number" id="cNumParcelas" placeholder="Ex: 4 (deixe vazio se não souber)" min="1" max="12" /></div>
+      </div>
     </div>
 
-    <div style="margin-top:14px;">
+    <!-- Seção 2: Valor de Entrada -->
+    <div style="background:#f0fdf4;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #bbf7d0;">
+      <p style="font-size:11px;font-weight:700;color:#065f46;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">💵 Valor de Entrada (BVE)</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div><label>Valor de Entrada (R$) — total pago pela cliente</label>
+          <input type="number" id="cEntrada" placeholder="0,00" step="0.01" min="0" oninput="recalcBon()" /></div>
+        <div><label>% BVE — Percentual de bônus sobre a entrada (ex: 5)</label>
+          <div style="position:relative;">
+            <input type="number" id="cBVE" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon()" style="padding-right:32px;" />
+            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
+          </div>
+        </div>
+        <div><label>Forma de pagamento da entrada</label>
+          <select id="cFormaPgmtEntrada" onchange="toggleEntradaParcelada()">
+            <option value="avista">À vista</option>
+            <option value="parcelado">Parcelado</option>
+          </select>
+        </div>
+        <div><label>Data do pagamento da entrada</label>
+          <input type="date" id="cDataEntrada" /></div>
+      </div>
+      <div id="entradaParceladaDiv" style="display:none;margin-top:10px;background:white;border-radius:8px;padding:10px;border:1px solid #bbf7d0;">
+        <p style="font-size:11px;color:#166534;margin-bottom:8px;font-weight:500;">Parcelas do valor de entrada:</p>
+        <div id="entradaParcelasContainer"></div>
+        <button type="button" onclick="addEntradaParcela()" style="font-size:12px;color:#10b981;background:none;border:1px solid #10b981;padding:4px 12px;border-radius:6px;cursor:pointer;margin-top:6px;">+ Parcela</button>
+      </div>
+      <div id="bveCalculado" style="margin-top:8px;padding:8px 12px;background:white;border-radius:6px;font-size:12px;color:#065f46;display:none;">
+        BVE calculado: <strong id="bveValorDisplay">R$ 0,00</strong>
+      </div>
+    </div>
+
+    <!-- Seção 3: Honorários e BF -->
+    <div style="background:#eff6ff;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid #bfdbfe;">
+      <p style="font-size:11px;font-weight:700;color:#1e40af;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em;">🏦 Honorários e Bônus Final (BF)</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div><label>Honorários Totais Previstos (R$)</label>
+          <input type="number" id="cHonorarios" placeholder="0,00" step="0.01" min="0" oninput="recalcBon()" /></div>
+        <div><label>% BF — Percentual de bônus sobre honorários finais (ex: 5)</label>
+          <div style="position:relative;">
+            <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon()" style="padding-right:32px;" />
+            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
+          </div>
+        </div>
+        <div><label>% BVP — Percentual de bônus por parcela recebida (ex: 5)</label>
+          <div style="position:relative;">
+            <input type="number" id="cBVP" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon()" style="padding-right:32px;" />
+            <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
+          </div>
+        </div>
+        <div><label>Data Efetiva do Pagamento da Bonificação</label>
+          <input type="date" id="cDataPagtoBon" /></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px;">
       <label>Observações</label>
       <textarea id="cObs" rows="2" placeholder="Anotações sobre o contrato..."></textarea>
     </div>
 
     <!-- Parcelas de honorários recebidos -->
-    <div style="margin-top:20px;">
+    <div style="margin-top:4px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div>
-          <h4 style="font-size:13px;font-weight:600;color:#0f172a;">Honorários Recebidos por Parcela</h4>
-          <p style="font-size:11px;color:#64748b;margin-top:2px;">Registre cada parcela à medida que o escritório receber</p>
+          <h4 style="font-size:13px;font-weight:600;color:#0f172a;">📥 Honorários Recebidos por Parcela</h4>
+          <p style="font-size:11px;color:#64748b;margin-top:2px;">Registre cada parcela à medida que o escritório receber. A bonificação é calculada automaticamente.</p>
         </div>
         <button type="button" onclick="addParcelaForm()" style="background:#f1f5f9;color:#475569;padding:5px 12px;border-radius:7px;font-size:12px;border:none;cursor:pointer;font-weight:500;">+ Parcela</button>
       </div>
@@ -555,7 +619,11 @@ function calcContrato(c) {
   const totalHon = parc.reduce((a,p)=>a+Number(p.honorarios||0),0);
   const bonParcelas = parc.reduce((a,p)=>a+Number(p.bonificacao||0),0);
   const bveValor = Number(c.bveValor||0);
-  const bfValor  = Number(c.honorariosFinais||0)*Number(c.bfPct||0)/100;
+  // Se bfPct > 100, foi importado como valor em R$ (não como %) — usar diretamente
+  const bfPctNum = Number(c.bfPct||0);
+  const bfValor  = bfPctNum > 100
+    ? bfPctNum  // foi importado como valor monetário (ex: R$250)
+    : Number(c.honorariosFinais||0)*bfPctNum/100;
   const bonTotal = bveValor + bonParcelas + bfValor;
 
   // Última parcela recebida
@@ -590,6 +658,41 @@ function statusBadge(s) {
   const [bg,tc,lb] = map[s]||map['aguardando_parcelas'];
   return `<span style="background:${bg};color:${tc};font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;">${lb}</span>`;
 }
+
+// ── Entrada parcelada ────────────────────────────────────────
+let entradaParcelaCount = 0;
+window.toggleEntradaParcelada = function() {
+  const val = document.getElementById('cFormaPgmtEntrada')?.value;
+  const div = document.getElementById('entradaParceladaDiv');
+  if(div) div.style.display = val==='parcelado' ? 'block' : 'none';
+};
+window.addEntradaParcela = function(data) {
+  entradaParcelaCount++;
+  const i = entradaParcelaCount; const d = data||{};
+  const cont = document.getElementById('entradaParcelasContainer'); if(!cont) return;
+  const row = document.createElement('div');
+  row.id = `ep_row_${i}`;
+  row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-bottom:6px;align-items:end;';
+  row.innerHTML = `
+    <div><label style="font-size:11px;">Valor (R$)</label><input type="number" id="ep_ev_${i}" value="${d.valor||''}" step="0.01" min="0" placeholder="0,00" style="font-size:13px;padding:6px 10px;" /></div>
+    <div><label style="font-size:11px;">Data</label><input type="date" id="ep_ed_${i}" value="${d.data||''}" style="font-size:13px;padding:6px 10px;" /></div>
+    <button type="button" onclick="document.getElementById('ep_row_${i}').remove()" style="background:none;border:none;color:#94a3b8;cursor:pointer;padding:8px;font-size:16px;align-self:center;">✕</button>`;
+  cont.appendChild(row);
+};
+
+// ── Período relatório ─────────────────────────────────────────
+let relPeriodo = 'todos';
+window.setRelPeriodo = function(p) {
+  relPeriodo = p;
+  ['todos','mes_atual','mes_anterior','3meses','6meses','personalizado'].forEach(id=>{
+    const btn=document.getElementById('rp-'+id); if(!btn) return;
+    if(id===p){btn.style.background='#10b981';btn.style.color='white';btn.style.borderColor='#10b981';}
+    else{btn.style.background='white';btn.style.color='#475569';btn.style.borderColor='#e2e8f0';}
+  });
+  const custom=document.getElementById('relPeriodoCustom');
+  if(custom) custom.style.display = p==='personalizado'?'flex':'none';
+  renderRelatorios();
+};
 
 // ── Auditoria ─────────────────────────────────────────────────
 async function logAudit(acao, detalhe) {
@@ -848,8 +951,9 @@ function renderDashboard() {
   // Filtrar por KPI selecionado
   if (dashKpiFiltro && dashKpiFiltro !== 'todos') filtrados = filtrados.filter(c=>calcContrato(c).status===dashKpiFiltro);
   // Filtrar por busca
-  const dashBuscaVal = (document.getElementById('dashBusca')?.value||'').toLowerCase();
-  if (dashBuscaVal) filtrados = filtrados.filter(c=>c.cliente?.toLowerCase().includes(dashBuscaVal)||c.colaborador?.toLowerCase().includes(dashBuscaVal));
+  const dashBuscaEl = document.getElementById('dashBusca');
+  const dashBuscaVal = (dashBuscaEl ? dashBuscaEl.value : '').toLowerCase().trim();
+  if (dashBuscaVal) filtrados = filtrados.filter(c=>(c.cliente||'').toLowerCase().includes(dashBuscaVal)||(c.colaborador||'').toLowerCase().includes(dashBuscaVal));
 
   const tbody=document.getElementById('dashboardTableBody');
   tbody.innerHTML=filtrados.length ? filtrados.map(c=>{
@@ -927,20 +1031,38 @@ window.openModalContrato = function(id) {
   if(id) {
     const c=allContratos.find(x=>x.id===id); if(!c) return;
     document.getElementById('cColab').value=c.colaborador||'';
+    // Aguardar populate para garantir que o select tem as opções
+    setTimeout(()=>{document.getElementById('cColab').value=c.colaborador||'';},50);
     document.getElementById('cCliente').value=c.cliente||'';
     document.getElementById('cCausa').value=c.causa||'';
     document.getElementById('cNumParcelas').value=c.numParcelas||'';
     document.getElementById('cEntrada').value=c.entrada||0;
     document.getElementById('cBVE').value=c.bvePct||0;
+    document.getElementById('cBVP').value=c.bvpPct||0;
     document.getElementById('cDataEntrada').value=c.dataEntrada||'';
     document.getElementById('cHonorarios').value=c.honorariosFinais||0;
     document.getElementById('cBF').value=c.bfPct||0;
     document.getElementById('cDataPagtoBon').value=c.dataPagtoBon||'';
     document.getElementById('cObs').value=c.obs||'';
+    // Entrada parcelada
+    entradaParcelaCount=0;
+    document.getElementById('entradaParcelasContainer').innerHTML='';
+    if(c.formaPgmtEntrada==='parcelado'){
+      document.getElementById('cFormaPgmtEntrada').value='parcelado';
+      document.getElementById('entradaParceladaDiv').style.display='block';
+      (c.entradaParcelas||[]).forEach(ep=>addEntradaParcela(ep));
+    } else {
+      document.getElementById('cFormaPgmtEntrada').value='avista';
+      document.getElementById('entradaParceladaDiv').style.display='none';
+    }
     (c.parcelas||[]).forEach(p=>addParcelaForm(p));
   } else {
-    ['cColab','cCausa'].forEach(id=>document.getElementById(id).value='');
-    ['cCliente','cNumParcelas','cEntrada','cBVE','cDataEntrada','cHonorarios','cBF','cDataPagtoBon','cObs'].forEach(id=>document.getElementById(id).value='');
+    ['cColab','cCausa','cFormaPgmtEntrada'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=el.tagName==='SELECT'?el.options[0]?.value||'':'';});
+    ['cCliente','cNumParcelas','cEntrada','cBVE','cBVP','cDataEntrada','cHonorarios','cBF','cDataPagtoBon','cObs'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    entradaParcelaCount=0;
+    const epCont=document.getElementById('entradaParcelasContainer');if(epCont)epCont.innerHTML='';
+    const epDiv=document.getElementById('entradaParceladaDiv');if(epDiv)epDiv.style.display='none';
+    const bveD=document.getElementById('bveCalculado');if(bveD)bveD.style.display='none';
   }
   document.getElementById('modalContrato').style.display='flex';
 };
@@ -953,29 +1075,53 @@ window.addParcelaForm = function(data) {
   div.className='parcela-row'; div.id=`pr-${i}`;
   div.innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-      <span style="font-size:12px;font-weight:600;color:#475569;">${i}ª Parcela</span>
+      <span style="font-size:12px;font-weight:600;color:#475569;">${i}ª Parcela de Honorários</span>
       <button type="button" onclick="removeParcelaForm(${i})" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:12px;">✕ remover</button>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;">
-      <div><label>Valor recebido pelo cliente (R$)</label><input type="number" id="p${i}_vc" value="${d.valorCliente||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
-      <div><label>Honorários do escritório (R$)</label><input type="number" id="p${i}_hon" value="${d.honorarios||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
-      <div><label>Data recebimento</label><input type="date" id="p${i}_data" value="${d.dataPgmt||''}" onchange="recalcBon()" /></div>
-      <div><label>Bonificação desta parcela (R$)</label><input type="number" id="p${i}_bon" value="${d.bonificacao||''}" step="0.01" min="0" placeholder="0,00" oninput="recalcBon()" /></div>
+      <div><label>Valor pago pela cliente (R$)</label><input type="number" id="p${i}_vc" value="${d.valorCliente||''}" step="0.01" min="0" placeholder="0,00" oninput="calcParcelaBon(${i})" /></div>
+      <div><label>Honorários do escritório (R$)</label><input type="number" id="p${i}_hon" value="${d.honorarios||''}" step="0.01" min="0" placeholder="0,00" oninput="calcParcelaBon(${i})" /></div>
+      <div><label>Data do recebimento</label><input type="date" id="p${i}_data" value="${d.dataPgmt||''}" onchange="recalcBon()" /></div>
+      <div style="position:relative;"><label>Bonificação BVP (calculada automaticamente)</label>
+        <input type="number" id="p${i}_bon" value="${d.bonificacao||''}" step="0.01" min="0" placeholder="Calculado pelo %BVP" style="background:#f0fdf4;" oninput="recalcBon()" />
+        <p id="p${i}_boncalc" style="font-size:10px;color:#10b981;margin-top:2px;"></p>
+      </div>
     </div>`;
   document.getElementById('parcelasContainer').appendChild(div);
+  if(d.bonificacao) recalcBon();
+  else calcParcelaBon(i);
+};
+
+window.calcParcelaBon = function(i) {
+  const hon = parseFloat(document.getElementById(`p${i}_hon`)?.value)||0;
+  const pct = parseFloat(document.getElementById('cBVP')?.value)||0;
+  const bonCalc = hon * pct / 100;
+  const bonInput = document.getElementById(`p${i}_bon`);
+  const bonLabel = document.getElementById(`p${i}_boncalc`);
+  if(bonCalc > 0 && bonInput) {
+    bonInput.value = bonCalc.toFixed(2);
+    if(bonLabel) bonLabel.textContent = `${pct}% de ${fmt(hon)} = ${fmt(bonCalc)}`;
+  }
   recalcBon();
 };
 window.removeParcelaForm = function(i){document.getElementById(`pr-${i}`)?.remove();recalcBon();};
 
 window.recalcBon = function() {
-  let total=0;
+  let bvpTotal=0;
   document.querySelectorAll('[id^="pr-"]').forEach(row=>{
     const idx=row.id.replace('pr-','');
-    total+=parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0;
+    bvpTotal+=parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0;
   });
-  const bve=(parseFloat(document.getElementById('cEntrada')?.value)||0)*(parseFloat(document.getElementById('cBVE')?.value)||0)/100;
+  const entrada=parseFloat(document.getElementById('cEntrada')?.value)||0;
+  const bvePct=parseFloat(document.getElementById('cBVE')?.value)||0;
+  const bve=entrada*bvePct/100;
   const bf=(parseFloat(document.getElementById('cHonorarios')?.value)||0)*(parseFloat(document.getElementById('cBF')?.value)||0)/100;
-  const grand=total+bve+bf;
+  const grand=bvpTotal+bve+bf;
+  // Mostrar BVE calculado
+  const bveDiv=document.getElementById('bveCalculado');
+  const bveDisp=document.getElementById('bveValorDisplay');
+  if(bve>0&&bveDiv&&bveDisp){bveDiv.style.display='block';bveDisp.textContent=fmt(bve)+` (${bvePct}% de ${fmt(entrada)})`;}
+  else if(bveDiv) bveDiv.style.display='none';
   if(grand>0){
     document.getElementById('resumoBonificacao').style.display='block';
     document.getElementById('totalBonCalc').textContent=fmt(grand);
@@ -993,12 +1139,22 @@ window.saveContrato = async function() {
   const entrada=parseFloat(document.getElementById('cEntrada').value)||0;
   const bvePct=parseFloat(document.getElementById('cBVE').value)||0;
   const bveValor=entrada*bvePct/100;
+  const bvpPct=parseFloat(document.getElementById('cBVP').value)||0;
   const numParcelas=parseInt(document.getElementById('cNumParcelas').value)||0;
   const honorariosFinais=parseFloat(document.getElementById('cHonorarios').value)||0;
   const bfPct=parseFloat(document.getElementById('cBF').value)||0;
   const dataPagtoBon=document.getElementById('cDataPagtoBon').value||'';
   const dataEntrada=document.getElementById('cDataEntrada').value||'';
+  const formaPgmtEntrada=document.getElementById('cFormaPgmtEntrada')?.value||'avista';
   const obs=document.getElementById('cObs').value.trim();
+  // Coletar parcelas de entrada
+  const entradaParcelas=[];
+  document.querySelectorAll('[id^="ep_row_"]').forEach(row=>{
+    const idx=row.id.replace('ep_row_','');
+    const val=parseFloat(document.getElementById(`ep_ev_${idx}`)?.value)||0;
+    const dat=document.getElementById(`ep_ed_${idx}`)?.value||'';
+    if(val||dat) entradaParcelas.push({valor:val,data:dat});
+  });
 
   const parcelas=[];
   document.querySelectorAll('[id^="pr-"]').forEach(row=>{
@@ -1011,7 +1167,7 @@ window.saveContrato = async function() {
     });
   });
 
-  const payload={colaborador,cliente,causa,numParcelas,entrada,bvePct,bveValor,dataEntrada,honorariosFinais,bfPct,dataPagtoBon,obs,parcelas,updatedAt:serverTimestamp()};
+  const payload={colaborador,cliente,causa,numParcelas,entrada,bvePct,bveValor,bvpPct,dataEntrada,formaPgmtEntrada,entradaParcelas,honorariosFinais,bfPct,dataPagtoBon,obs,parcelas,updatedAt:serverTimestamp()};
   try {
     if(editingId){
       await updateDoc(doc(db,'contratos',editingId),payload);
@@ -1206,10 +1362,16 @@ function renderEditArea() {
   </div>`;
 
   // Registrar pagamento da bonificação
-  const {status, previsaoPagto, bonTotal} = calcContrato(c);
+  const {status, previsaoPagto, bonTotal, bveValor, bonParcelas, bfValor} = calcContrato(c);
   html += `<div style="background:#f0fdf4;border-radius:10px;padding:16px;border:1px solid #bbf7d0;">
     <p style="font-size:13px;font-weight:600;color:#065f46;margin-bottom:12px;">💰 Registrar pagamento da bonificação à colaboradora</p>
-    <p style="font-size:12px;color:#166534;margin-bottom:10px;">Total a pagar: <strong>${fmt(bonTotal)}</strong>${previsaoPagto?` · Previsão: ${fmtDate(previsaoPagto)}`:''}${c.dataPagtoBon?` · <span style="color:#10b981;">✅ Já pago em ${fmtDate(c.dataPagtoBon)}</span>`:''}</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:10px;">
+      <div style="background:white;border-radius:6px;padding:8px;"><p style="font-size:10px;color:#64748b;">BVE</p><p style="font-size:13px;font-weight:600;">${fmt(bveValor)}</p></div>
+      <div style="background:white;border-radius:6px;padding:8px;"><p style="font-size:10px;color:#64748b;">BVP (parcelas)</p><p style="font-size:13px;font-weight:600;">${fmt(bonParcelas)}</p></div>
+      <div style="background:white;border-radius:6px;padding:8px;"><p style="font-size:10px;color:#64748b;">BF</p><p style="font-size:13px;font-weight:600;">${fmt(bfValor)}</p></div>
+      <div style="background:#10b981;border-radius:6px;padding:8px;"><p style="font-size:10px;color:rgba(255,255,255,0.8);">Total</p><p style="font-size:14px;font-weight:700;color:white;">${fmt(bonTotal)}</p></div>
+    </div>
+    <p style="font-size:12px;color:#166534;margin-bottom:10px;">${previsaoPagto?`Previsão D+30: <strong>${fmtDate(previsaoPagto)}</strong>`:'Aguardando todas as parcelas'}${c.dataPagtoBon?` · <span style="color:#10b981;">✅ Já pago em ${fmtDate(c.dataPagtoBon)}</span>`:''}</p>
     <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
       <div style="flex:1;min-width:160px;"><label>Data do pagamento à colaboradora</label>
         <input type="date" id="ep_dataBon" value="${c.dataPagtoBon||today()}" /></div>
@@ -1285,12 +1447,46 @@ window.renderRelatorios = function() {
   let data=[...allContratos];
   const fc=document.getElementById('relColab')?.value;
   const fca=document.getElementById('relCausa')?.value;
-  const de=document.getElementById('relDe')?.value;
-  const ate=document.getElementById('relAte')?.value;
   if(fc) data=data.filter(c=>c.colaborador===fc);
   if(fca) data=data.filter(c=>c.causa===fca);
-  if(de) data=data.filter(c=>c.dataEntrada>=de);
-  if(ate) data=data.filter(c=>c.dataEntrada<=ate);
+  // Filtro por período (botões)
+  const td=today(); const now=new Date(td+'T00:00:00');
+  if(relPeriodo==='mes_atual'){
+    const ym=td.substring(0,7);
+    data=data.filter(c=>{
+      const dts=(c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      return dts.some(d=>d.startsWith(ym))||(c.dataEntrada||'').startsWith(ym);
+    });
+  } else if(relPeriodo==='mes_anterior'){
+    const d=new Date(now.getFullYear(),now.getMonth()-1,1);
+    const ym=d.toISOString().substring(0,7);
+    data=data.filter(c=>{
+      const dts=(c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      return dts.some(d=>d.startsWith(ym))||(c.dataEntrada||'').startsWith(ym);
+    });
+  } else if(relPeriodo==='3meses'){
+    const lim=new Date(now); lim.setMonth(lim.getMonth()-3);
+    const limStr=lim.toISOString().substring(0,10);
+    data=data.filter(c=>{
+      const dts=(c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      return dts.some(d=>d>=limStr)||(c.dataEntrada&&c.dataEntrada>=limStr);
+    });
+  } else if(relPeriodo==='6meses'){
+    const lim=new Date(now); lim.setMonth(lim.getMonth()-6);
+    const limStr=lim.toISOString().substring(0,10);
+    data=data.filter(c=>{
+      const dts=(c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      return dts.some(d=>d>=limStr)||(c.dataEntrada&&c.dataEntrada>=limStr);
+    });
+  } else if(relPeriodo==='personalizado'){
+    const de=document.getElementById('relDe')?.value;
+    const ate=document.getElementById('relAte')?.value;
+    if(de||ate) data=data.filter(c=>{
+      const dts=(c.parcelas||[]).filter(p=>p.dataPgmt).map(p=>p.dataPgmt);
+      const ok=d=>(!de||d>=de)&&(!ate||d<=ate);
+      return dts.some(d=>ok(d))||(c.dataEntrada&&ok(c.dataEntrada));
+    });
+  }
 
   // Busca por nome
   const relBuscaVal=(document.getElementById('relBusca')?.value||'').toLowerCase();
