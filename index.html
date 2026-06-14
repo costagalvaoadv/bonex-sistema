@@ -145,25 +145,25 @@
 
       <!-- KPIs -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px;">
-        <div class="card">
+        <div class="card kpi-card" onclick="filtrarPorKpi('aguardando_30dias')" style="cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(245,158,11,0.15)';this.style.borderColor='#f59e0b'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='#e2e8f0'">
           <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Bon. a Pagar</p>
           <p id="kpiAPagar" style="font-size:22px;font-weight:700;color:#f59e0b;">R$ 0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Aguardando 30 dias</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Clique para ver</p>
         </div>
-        <div class="card">
+        <div class="card kpi-card" onclick="filtrarPorKpi('paga')" style="cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(16,185,129,0.15)';this.style.borderColor='#10b981'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='#e2e8f0'">
           <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Bon. Pagas</p>
           <p id="kpiPagas" style="font-size:22px;font-weight:700;color:#10b981;">R$ 0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Já liquidadas</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Clique para ver</p>
         </div>
-        <div class="card">
+        <div class="card kpi-card" onclick="filtrarPorKpi('vencida')" style="cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(220,38,38,0.15)';this.style.borderColor='#dc2626'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='#e2e8f0'">
           <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Vencidas</p>
           <p id="kpiVencidas" style="font-size:22px;font-weight:700;color:#dc2626;">0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">30 dias já passaram</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Clique para ver</p>
         </div>
-        <div class="card">
+        <div class="card kpi-card" onclick="filtrarPorKpi('todos')" style="cursor:pointer;transition:all 0.2s;" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 24px rgba(99,102,241,0.12)';this.style.borderColor='#6366f1'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.borderColor='#e2e8f0'">
           <p style="font-size:12px;color:#64748b;margin-bottom:4px;">Contratos</p>
           <p id="kpiContratos" style="font-size:22px;font-weight:700;color:#0f172a;">0</p>
-          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Total cadastrados</p>
+          <p style="font-size:11px;color:#94a3b8;margin-top:2px;">Clique para ver todos</p>
         </div>
       </div>
 
@@ -204,9 +204,15 @@
 
       <!-- Tabela -->
       <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
           <h3 style="font-size:14px;font-weight:600;color:#0f172a;">Lançamentos <span id="dashPeriodoLabel" style="font-size:12px;font-weight:400;color:#94a3b8;"></span></h3>
-          <p style="font-size:12px;color:#94a3b8;">Clique na cliente para ver detalhamento completo</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="position:relative;">
+              <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="dashBusca" placeholder="Buscar cliente..." oninput="renderDashboard()" style="padding:6px 10px 6px 32px;font-size:12px;width:180px;border-radius:20px;" />
+            </div>
+            <p style="font-size:12px;color:#94a3b8;white-space:nowrap;">Clique na cliente para detalhamento</p>
+          </div>
         </div>
         <div style="overflow-x:auto;">
           <table><thead><tr>
@@ -311,9 +317,15 @@
       </div>
 
       <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
           <h3 style="font-size:14px;font-weight:600;color:#0f172a;">Extrato Detalhado</h3>
-          <p id="relTotal" style="font-size:13px;font-weight:600;color:#10b981;"></p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="position:relative;">
+              <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="relBusca" placeholder="Buscar por cliente..." oninput="renderRelatorios()" style="padding:6px 10px 6px 32px;font-size:12px;width:200px;border-radius:20px;" />
+            </div>
+            <p id="relTotal" style="font-size:13px;font-weight:600;color:#10b981;white-space:nowrap;"></p>
+          </div>
         </div>
         <div style="overflow-x:auto;">
           <table><thead><tr>
@@ -459,7 +471,12 @@
       </button>
     </div>
     <div id="mpContent"></div>
-    <div style="display:flex;justify-content:flex-end;margin-top:20px;">
+    <div id="mpEditArea" style="display:none;margin-top:20px;border-top:1px solid #e2e8f0;padding-top:20px;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;">
+      <button id="btnMpEditar" class="btn-primary" onclick="toggleEditArea()" style="display:flex;align-items:center;gap:6px;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Editar / Registrar
+      </button>
       <button class="btn-secondary" onclick="closeModalParcelas()">Fechar</button>
     </div>
   </div>
@@ -710,6 +727,18 @@ function populateAuditUsers() {
 
 // ── Filtro período dashboard ─────────────────────────────────
 let dashPeriodo = 'mes_atual';
+let dashKpiFiltro = '';
+window.filtrarPorKpi = function(tipo) {
+  dashKpiFiltro = (tipo === 'todos' || tipo === dashKpiFiltro) ? '' : tipo;
+  renderDashboard();
+  setTimeout(()=>document.getElementById('dashboardTableBody')?.closest('.card')?.scrollIntoView({behavior:'smooth',block:'start'}),150);
+};
+window.filtrarPorKpi = function(tipo) {
+  dashKpiFiltro = tipo === dashKpiFiltro ? '' : tipo; // toggle
+  renderDashboard();
+  // Scroll suave até a tabela
+  setTimeout(()=>document.getElementById('dashboardTableBody')?.closest('.card')?.scrollIntoView({behavior:'smooth',block:'start'}),100);
+};
 window.setDashPeriodo = function(p) {
   dashPeriodo = p;
   ['mes_atual','mes_anterior','todos','mes_especifico','periodo'].forEach(id => {
@@ -815,15 +844,18 @@ function renderDashboard() {
   });
 
   // Filtrar por período
-  const filtrados = filtroDashDatas([...allContratos]);
+  let filtrados = filtroDashDatas([...allContratos]);
+  // Filtrar por KPI selecionado
+  if (dashKpiFiltro && dashKpiFiltro !== 'todos') filtrados = filtrados.filter(c=>calcContrato(c).status===dashKpiFiltro);
+  // Filtrar por busca
+  const dashBuscaVal = (document.getElementById('dashBusca')?.value||'').toLowerCase();
+  if (dashBuscaVal) filtrados = filtrados.filter(c=>c.cliente?.toLowerCase().includes(dashBuscaVal)||c.colaborador?.toLowerCase().includes(dashBuscaVal));
 
-  // KPIs usam todos os contratos (não filtrado por período)
-  // Tabela usa filtrados
   const tbody=document.getElementById('dashboardTableBody');
   tbody.innerHTML=filtrados.length ? filtrados.map(c=>{
     const {bonTotal,status,previsaoPagto}=calcContrato(c);
     const parcRecebidas=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
-    return `<tr style="cursor:pointer;" onclick="openModalParcelas('${c.id}')" title="Clique para ver detalhamento">
+    return `<tr style="cursor:pointer;transition:background 0.15s;" onclick="openModalParcelas('${c.id}')" onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background=''" title="Clique para ver detalhamento completo">
       <td style="font-weight:500;">${c.colaborador}</td>
       <td><span style="color:#1d4ed8;font-weight:500;text-decoration:underline;text-decoration-style:dotted;">${c.cliente}</span></td>
       <td>${c.causa}</td>
@@ -832,7 +864,7 @@ function renderDashboard() {
       <td>${statusBadge(status)}</td>
       <td style="color:#64748b;font-size:12px;">${fmtDate(previsaoPagto)||'—'}</td>
     </tr>`;
-  }).join('') : '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum lançamento no período</td></tr>';
+  }).join('') : '<tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:32px;">Nenhum lançamento encontrado</td></tr>';
 
   // Charts (sempre todos)
   const byColab={};
@@ -1006,6 +1038,11 @@ window.deleteContrato = async function(id) {
 
 // ── MODAL PARCELAS ────────────────────────────────────────────
 window.openModalParcelas = function(id) {
+  modalEditingId = id;
+  const mpEdit = document.getElementById('mpEditArea');
+  if(mpEdit){ mpEdit.style.display='none'; }
+  const btnEd = document.getElementById('btnMpEditar');
+  if(btnEd){ btnEd.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar / Registrar'; btnEd.style.background='#10b981'; btnEd.style.color='white'; }
   const c=allContratos.find(x=>x.id===id); if(!c) return;
   const {bonTotal,status,previsaoPagto,bveValor,bfValor,bonParcelas,totalHon}=calcContrato(c);
   document.getElementById('mpTitle').textContent=c.cliente;
@@ -1119,7 +1156,129 @@ window.openModalParcelas = function(id) {
   document.getElementById('mpContent').innerHTML=html;
   document.getElementById('modalParcelas').style.display='flex';
 };
+window.toggleEditArea = function() {
+  const area = document.getElementById('mpEditArea');
+  const btn  = document.getElementById('btnMpEditar');
+  if (area.style.display === 'none') {
+    area.style.display = 'block';
+    btn.textContent = '✕ Cancelar edição';
+    btn.style.background = '#f1f5f9';
+    btn.style.color = '#475569';
+    renderEditArea();
+  } else {
+    area.style.display = 'none';
+    btn.innerHTML = '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar / Registrar';
+    btn.style.background = '#10b981';
+    btn.style.color = 'white';
+  }
+};
+
+let modalEditingId = null;
+
+function renderEditArea() {
+  const c = allContratos.find(x=>x.id===modalEditingId); if(!c) return;
+  const area = document.getElementById('mpEditArea');
+  const parc = c.parcelas||[];
+  const canEdit = currentRole==='admin' || c.colaborador===currentName;
+  if(!canEdit){ area.innerHTML='<p style="color:#94a3b8;font-size:13px;">Sem permissão para editar este contrato.</p>'; return; }
+
+  let html = `<h4 style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:16px;">✏️ Edição Rápida</h4>`;
+
+  // Registrar nova parcela recebida
+  html += `<div style="background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:16px;border:1px solid #e2e8f0;">
+    <p style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:12px;">📥 Registrar recebimento de honorários</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px;">
+      <div><label>Nº da parcela</label>
+        <select id="ep_num">
+          ${Array.from({length: Math.max(Number(c.numParcelas||4),parc.length+1)},(_,i)=>`<option value="${i+1}" ${i===parc.length?'selected':''}>${i+1}ª parcela</option>`).join('')}
+        </select>
+      </div>
+      <div><label>Valor recebido do cliente (R$)</label>
+        <input type="number" id="ep_vc" placeholder="0,00" step="0.01" min="0" /></div>
+      <div><label>Honorários do escritório (R$)</label>
+        <input type="number" id="ep_hon" placeholder="0,00" step="0.01" min="0" /></div>
+      <div><label>Data do recebimento</label>
+        <input type="date" id="ep_data" value="${today()}" /></div>
+      <div><label>Bonificação gerada (R$)</label>
+        <input type="number" id="ep_bon" placeholder="0,00" step="0.01" min="0" /></div>
+    </div>
+    <button class="btn-primary" onclick="salvarParcela('${c.id}')" style="font-size:13px;padding:8px 18px;">Salvar parcela</button>
+  </div>`;
+
+  // Registrar pagamento da bonificação
+  const {status, previsaoPagto, bonTotal} = calcContrato(c);
+  html += `<div style="background:#f0fdf4;border-radius:10px;padding:16px;border:1px solid #bbf7d0;">
+    <p style="font-size:13px;font-weight:600;color:#065f46;margin-bottom:12px;">💰 Registrar pagamento da bonificação à colaboradora</p>
+    <p style="font-size:12px;color:#166534;margin-bottom:10px;">Total a pagar: <strong>${fmt(bonTotal)}</strong>${previsaoPagto?` · Previsão: ${fmtDate(previsaoPagto)}`:''}${c.dataPagtoBon?` · <span style="color:#10b981;">✅ Já pago em ${fmtDate(c.dataPagtoBon)}</span>`:''}</p>
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+      <div style="flex:1;min-width:160px;"><label>Data do pagamento à colaboradora</label>
+        <input type="date" id="ep_dataBon" value="${c.dataPagtoBon||today()}" /></div>
+      <button class="btn-primary" onclick="salvarPagtoBon('${c.id}')" style="font-size:13px;padding:8px 18px;background:#059669;">✅ Marcar como paga</button>
+      ${c.dataPagtoBon?`<button onclick="cancelarPagtoBon('${c.id}')" style="font-size:12px;padding:8px 14px;background:white;color:#dc2626;border:1px solid #fecaca;border-radius:8px;cursor:pointer;">Desfazer</button>`:''}
+    </div>
+  </div>`;
+
+  // Editar campos principais
+  html += `<div style="margin-top:16px;background:#f8fafc;border-radius:10px;padding:16px;border:1px solid #e2e8f0;">
+    <p style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:12px;">⚙️ Editar dados do contrato</p>
+    <button class="btn-secondary" onclick="closeModalParcelas();openModalContrato('${c.id}')" style="font-size:13px;display:flex;align-items:center;gap:6px;">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Abrir formulário completo de edição
+    </button>
+  </div>`;
+
+  area.innerHTML = html;
+}
+
+window.salvarParcela = async function(id) {
+  const c = allContratos.find(x=>x.id===id); if(!c) return;
+  const num = parseInt(document.getElementById('ep_num').value)-1;
+  const nova = {
+    valorCliente: parseFloat(document.getElementById('ep_vc').value)||0,
+    honorarios:   parseFloat(document.getElementById('ep_hon').value)||0,
+    dataPgmt:     document.getElementById('ep_data').value||'',
+    bonificacao:  parseFloat(document.getElementById('ep_bon').value)||0,
+  };
+  if(!nova.dataPgmt){ showToast('Informe a data do recebimento.','#dc2626'); return; }
+  const parcelas = [...(c.parcelas||[])];
+  if(num < parcelas.length) parcelas[num] = nova;
+  else { while(parcelas.length < num) parcelas.push({valorCliente:0,honorarios:0,dataPgmt:'',bonificacao:0}); parcelas.push(nova); }
+  try {
+    await updateDoc(doc(db,'contratos',id),{parcelas, updatedAt:serverTimestamp()});
+    await logAudit('editou',`Parcela ${num+1} de ${c.cliente}`);
+    showToast('Parcela registrada!','#10b981');
+    closeModalParcelas();
+    setTimeout(()=>openModalParcelas(id),400);
+  } catch(e){ showToast('Erro: '+e.message,'#dc2626'); }
+};
+
+window.salvarPagtoBon = async function(id) {
+  const data = document.getElementById('ep_dataBon').value;
+  if(!data){ showToast('Informe a data do pagamento.','#dc2626'); return; }
+  const c = allContratos.find(x=>x.id===id);
+  try {
+    await updateDoc(doc(db,'contratos',id),{dataPagtoBon:data, updatedAt:serverTimestamp()});
+    await logAudit('editou',`Bonificação paga para ${c?.cliente} em ${data}`);
+    showToast('Bonificação marcada como paga!','#10b981');
+    closeModalParcelas();
+    setTimeout(()=>openModalParcelas(id),400);
+  } catch(e){ showToast('Erro: '+e.message,'#dc2626'); }
+};
+
+window.cancelarPagtoBon = async function(id) {
+  if(!confirm('Desfazer o pagamento da bonificação?')) return;
+  const c = allContratos.find(x=>x.id===id);
+  try {
+    await updateDoc(doc(db,'contratos',id),{dataPagtoBon:'', updatedAt:serverTimestamp()});
+    await logAudit('editou',`Pagamento bonificação desfeito: ${c?.cliente}`);
+    showToast('Pagamento desfeito.','#475569');
+    closeModalParcelas();
+    setTimeout(()=>openModalParcelas(id),400);
+  } catch(e){ showToast('Erro: '+e.message,'#dc2626'); }
+};
+
 window.closeModalParcelas=function(){document.getElementById('modalParcelas').style.display='none';};
+
 
 // ── RELATÓRIOS ────────────────────────────────────────────────
 window.renderRelatorios = function() {
@@ -1133,14 +1292,19 @@ window.renderRelatorios = function() {
   if(de) data=data.filter(c=>c.dataEntrada>=de);
   if(ate) data=data.filter(c=>c.dataEntrada<=ate);
 
+  // Busca por nome
+  const relBuscaVal=(document.getElementById('relBusca')?.value||'').toLowerCase();
+  if(relBuscaVal) data=data.filter(c=>c.cliente?.toLowerCase().includes(relBuscaVal));
+
   let totalGeral=0;
+
   const tbody=document.getElementById('relatorioTableBody');
   tbody.innerHTML=data.length ? data.map(c=>{
     const {bonTotal,status,previsaoPagto,totalHon}=calcContrato(c);
     totalGeral+=bonTotal;
     const parcRec=(c.parcelas||[]).filter(p=>p.dataPgmt).length;
     return `<tr>
-      <td>${c.colaborador}</td><td>${c.cliente}</td><td>${c.causa}</td>
+      <td>${c.colaborador}</td><td><span onclick="openModalParcelas('${c.id}')" style="color:#1d4ed8;font-weight:500;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;">${c.cliente}</span></td><td>${c.causa}</td>
       <td style="text-align:center;">${parcRec}/${c.numParcelas||'?'}</td>
       <td>${fmt(totalHon)}</td>
       <td style="font-weight:700;color:#10b981;">${fmt(bonTotal)}</td>
