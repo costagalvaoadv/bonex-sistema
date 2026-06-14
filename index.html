@@ -171,9 +171,9 @@
       <div class="card no-print" style="margin-bottom:20px;padding:14px 20px;">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span style="font-size:12px;font-weight:600;color:#475569;white-space:nowrap;margin-right:4px;">Período:</span>
-          <button onclick="setDashPeriodo('mes_atual')" id="dbf-mes_atual" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #10b981;background:#10b981;color:white;transition:all 0.15s;">Mês atual</button>
+          <button onclick="setDashPeriodo('mes_atual')" id="dbf-mes_atual" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Mês atual</button>
           <button onclick="setDashPeriodo('mes_anterior')" id="dbf-mes_anterior" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Mês anterior</button>
-          <button onclick="setDashPeriodo('todos')" id="dbf-todos" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Todos</button>
+          <button onclick="setDashPeriodo('todos')" id="dbf-todos" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #10b981;background:#10b981;color:white;transition:all 0.15s;">Todos</button>
           <button onclick="setDashPeriodo('mes_especifico')" id="dbf-mes_especifico" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Mês específico</button>
           <button onclick="setDashPeriodo('periodo')" id="dbf-periodo" style="padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid #e2e8f0;background:white;color:#475569;transition:all 0.15s;">Período</button>
           <div id="dashFiltroMes" style="display:none;">
@@ -835,7 +835,7 @@ function populateAuditUsers() {
 }
 
 // ── Filtro período dashboard ─────────────────────────────────
-let dashPeriodo = 'mes_atual';
+let dashPeriodo = 'todos';
 let dashKpiFiltro = '';
 window.filtrarPorKpi = function(tipo) {
   dashKpiFiltro = (tipo === 'todos' || tipo === dashKpiFiltro) ? '' : tipo;
