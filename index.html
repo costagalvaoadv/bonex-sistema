@@ -489,6 +489,7 @@
         <div><label>% BF — Percentual de bônus sobre honorários finais (ex: 5) <span id="aviso_bf" style="color:#dc2626;font-size:10px;font-weight:600;"></span></label>
           <div style="position:relative;">
             <input type="number" id="cBF" placeholder="5" step="0.01" min="0" max="100" oninput="recalcBon();verificarPct('cBF','aviso_bf')" style="padding-right:32px;" />
+            <p id="bfCalculado" style="font-size:11px;color:#1e40af;margin-top:4px;display:none;"></p>
             <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:13px;pointer-events:none;">%</span>
           </div>
         </div>
@@ -1098,26 +1099,29 @@ window.openModalContrato = function(id) {
   document.getElementById('modalContratoTitle').textContent=id?'Editar Contrato':'Novo Contrato';
   if(id) {
     const c=allContratos.find(x=>x.id===id); if(!c) return;
-    // Garantir que o select de colaboradora tem as opções antes de setar
+    // Carregar colaboradora — funciona com usuário cadastrado ou nome livre
     populateColabSelects();
-    setTimeout(()=>{
+    const setColab = () => {
       const sel=document.getElementById('cColab');
       const inp=document.getElementById('cColabLivre');
       const avi=document.getElementById('cColabLivreAviso');
       const colab=c.colaborador||'';
-      // Verificar se a colaboradora está na lista de usuários
-      const existe=allUsuarios.some(u=>u.nome===colab&&u.role==='colaborador');
-      if(existe||!colab){
-        if(sel) sel.value=colab;
+      if(!colab) return;
+      // Tentar selecionar na lista
+      if(sel && [...sel.options].some(o=>o.value===colab)) {
+        sel.value=colab;
         if(inp){ inp.style.display='none'; inp.value=''; }
         if(avi) avi.style.display='none';
       } else {
-        // Nome livre (não tem usuário cadastrado)
+        // Nome não está na lista — usar campo livre
         if(sel) sel.value='__livre__';
         if(inp){ inp.style.display='block'; inp.value=colab; }
         if(avi) avi.style.display='block';
       }
-    },80);
+    };
+    setColab();
+    setTimeout(setColab, 150);
+    setTimeout(setColab, 400);
     document.getElementById('cCliente').value=c.cliente||'';
     document.getElementById('cCausa').value=c.causa||'';
     document.getElementById('cNumParcelas').value=c.numParcelas||'';
@@ -1302,21 +1306,49 @@ window.recalcBon = function() {
     const idx=row.id.replace('pr-','');
     bvpTotal+=parseFloat(document.getElementById(`p${idx}_bon`)?.value)||0;
   });
-  const entrada=parseFloat(document.getElementById('cEntrada')?.value)||0;
-  const bvePct=parseFloat(document.getElementById('cBVE')?.value)||0;
-  const bve=entrada*bvePct/100;
-  const bf=(parseFloat(document.getElementById('cHonorarios')?.value)||0)*(parseFloat(document.getElementById('cBF')?.value)||0)/100;
-  const grand=bvpTotal+bve+bf;
-  // Mostrar BVE calculado
-  const bveDiv=document.getElementById('bveCalculado');
-  const bveDisp=document.getElementById('bveValorDisplay');
-  if(bve>0&&bveDiv&&bveDisp){bveDiv.style.display='block';bveDisp.textContent=fmt(bve)+` (${bvePct}% de ${fmt(entrada)})`;}
-  else if(bveDiv) bveDiv.style.display='none';
-  if(grand>0){
-    document.getElementById('resumoBonificacao').style.display='block';
-    document.getElementById('totalBonCalc').textContent=fmt(grand);
-  } else {
-    document.getElementById('resumoBonificacao').style.display='none';
+  const entrada   = parseFloat(document.getElementById('cEntrada')?.value)||0;
+  const bvePct    = parseFloat(document.getElementById('cBVE')?.value)||0;
+  const honorarios= parseFloat(document.getElementById('cHonorarios')?.value)||0;
+  const bfPct     = parseFloat(document.getElementById('cBF')?.value)||0;
+
+  // BVE: se pct > 100 é valor monetário, não percentual
+  const bve = bvePct > 100 ? bvePct : entrada * bvePct / 100;
+
+  // BF: se pct > 100 é valor monetário, não percentual
+  const bf  = bfPct > 100 ? bfPct : honorarios * bfPct / 100;
+
+  const grand = bvpTotal + bve + bf;
+
+  // Mostrar BVE calculado com aviso se for valor fixo
+  const bveDiv  = document.getElementById('bveCalculado');
+  const bveDisp = document.getElementById('bveValorDisplay');
+  if(bve>0 && bveDiv && bveDisp){
+    bveDiv.style.display='block';
+    bveDisp.textContent = bvePct > 100
+      ? `${fmt(bve)} (valor fixo importado — corrija o % abaixo)`
+      : `${fmt(bve)} (${bvePct}% de ${fmt(entrada)})`;
+  } else if(bveDiv) bveDiv.style.display='none';
+
+  // Mostrar BF calculado
+  const bfDiv = document.getElementById('bfCalculado');
+  if(bfDiv){
+    if(bf>0){
+      bfDiv.style.display='block';
+      bfDiv.innerHTML = bfPct > 100
+        ? `<span style="color:#f59e0b;">⚠ BF: ${fmt(bf)} (valor fixo — o % de <strong>${bfPct}</strong> parece ser um valor R$, não um %. Corrija para o % correto, ex: 5)</span>`
+        : `BF calculado: <strong>${fmt(bf)}</strong> (${bfPct}% de ${fmt(honorarios)})`;
+    } else {
+      bfDiv.style.display='none';
+    }
+  }
+
+  const resumo = document.getElementById('resumoBonificacao');
+  const totalEl= document.getElementById('totalBonCalc');
+  if(grand>0 && resumo && totalEl){
+    resumo.style.display='block';
+    totalEl.textContent=fmt(grand);
+  } else if(resumo){
+    resumo.style.display='none';
   }
 };
 
